@@ -1,0 +1,35 @@
+package twy.burton.core.library;
+
+import java.util.List;
+
+import twy.burton.core.Service;
+
+public abstract class PasswordLibrary {
+
+	protected String libraryName;
+	protected List<Service> services = null;
+	
+	public PasswordLibrary(){
+		
+	}
+	
+	// Rewrite Library To Store
+	abstract void write();
+	// Read Library From Store
+	abstract boolean read();	
+	
+	
+	// Functions for reading and writing library data to the libariesfile
+	abstract String getLibraryStoreString();
+	abstract void createLibraryFromStoreString( String storeString );
+	
+	private void setLibraryName( String libraryName ){
+		this.libraryName = libraryName;
+	}
+	
+	private String getLibraryName(){
+		
+	}
+	
+}
+

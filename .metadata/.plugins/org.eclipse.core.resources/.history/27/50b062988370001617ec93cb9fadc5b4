@@ -1,0 +1,42 @@
+package twy.burton.core.library;
+
+public class LocalPasswordLibrary extends PasswordLibrary {
+
+	
+	private String filepath;
+	
+	
+	public LocalPasswordLibrary(){
+		super();
+	}
+	
+	
+	@Override
+	void write() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	boolean read() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	String getLibraryStoreString() {
+		
+		return null;
+	}
+
+
+	@Override
+	void createLibraryFromStoreString(String storeString) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	
+}

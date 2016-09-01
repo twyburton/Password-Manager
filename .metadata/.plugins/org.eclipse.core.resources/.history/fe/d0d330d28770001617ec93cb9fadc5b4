@@ -1,0 +1,43 @@
+package twy.burton.userinterface;
+
+import java.util.Scanner;
+
+import twy.burton.core.Constants;
+
+public class UserInterface {
+
+	private Scanner scanner = new Scanner(System.in);
+	private boolean running = true;
+	Console console = new Console();
+	
+	public UserInterface(){
+		print( Style.CLEAR );
+		println( Style.STYLE_UNDERLINE_ON + Constants.PROGRAM_NAME + " " + Constants.PROGRAM_VERSION + Style.STYLE_UNDERLINE_OFF );
+	}
+	
+	// Perform first time setup. This includes creating directories and blank library files.
+	public void firstSetup(){
+		
+	}
+	
+	public void run(){
+		
+		while( running ){
+			
+			print("> ");
+			String userinput = scanner.nextLine();
+			String[] input = userinput.split(" ");
+			
+			if( input[0].equals( "exit" ) || input[0].equals("quit") ){
+				running = false;
+			}
+			
+		}
+		
+		scanner.close();
+		
+	}
+	
+
+	
+}

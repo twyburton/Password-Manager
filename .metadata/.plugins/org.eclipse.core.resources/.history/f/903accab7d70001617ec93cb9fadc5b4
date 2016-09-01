@@ -1,0 +1,22 @@
+package twy.burton.core.library;
+
+public class RemotePasswordLibrary extends PasswordLibrary {
+
+	public RemotePasswordLibrary(){
+		super();
+	}
+	
+	
+	@Override
+	void write() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	boolean read() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}
