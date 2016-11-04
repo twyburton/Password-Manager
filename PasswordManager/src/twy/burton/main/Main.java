@@ -7,7 +7,7 @@ public class Main {
 	/*			
 	 * 			--- System Terminology ---
 	 * 
-	 * 			ManagerProgram > Password Library > Password Collection > Service
+	 * 			Password Manager > Password Library > Service
 	 * 
 	 *  
 	 *  			A user can have several password Libraries. These can be stored on a remote server

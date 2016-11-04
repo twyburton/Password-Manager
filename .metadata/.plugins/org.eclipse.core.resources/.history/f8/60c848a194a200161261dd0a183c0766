@@ -1,0 +1,28 @@
+package twy.burton.test.service;
+
+import static org.junit.Assert.*;
+
+import java.util.Arrays;
+
+import org.junit.Test;
+
+import twy.burton.core.service.Service;
+
+public class ServiceTest {
+
+	@Test
+	public void ServiceCreation() {
+		
+		Service s = new Service();
+		s.setName("ServiceName");
+		s.setUsername("ServiceUsername");
+		s.setPassword("password");
+		
+		assertEquals( "ServiceName", s.getName() );
+		assertEquals( "ServiceUsername", s.getUsername() );
+		assertEquals( "password", s.getPassword() );
+		
+		System.out.println(Arrays.toString(s.getServiceBytes()));
+	}
+
+}

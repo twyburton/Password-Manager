@@ -2,3 +2,9 @@
 1472759578904	Delete element
 1472759651444	Delete elements
 1472763970083	Rename type 'Console'
+1472983624807	Rename field 'filePath'
+1472983632366	Rename local variable 'filePath'
+1472983639619	Rename method 'getFilePath'
+1472983647666	Rename method 'setFilePath'
+1473021535179	Rename package 'twy.burton.service'
+1473021540271	Move compilation units

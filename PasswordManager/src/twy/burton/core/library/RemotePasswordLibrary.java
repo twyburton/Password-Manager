@@ -2,35 +2,52 @@ package twy.burton.core.library;
 
 public class RemotePasswordLibrary extends PasswordLibrary {
 
+	private String username;
+	private String url;
+	
 	public RemotePasswordLibrary(){
 		super();
 	}
 	
 	
 	@Override
-	public void write() {
+	public boolean write() {
+		return false;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public boolean read() {
+	protected boolean read() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 
 	@Override
-	public String getLibraryStoreString() {
+	public byte[] getLibraryStoreString() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	@Override
-	public void createLibraryFromStoreString(String storeString) {
+	public void createLibraryFromStoreString(byte[] storeString) {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public String getListIdentifier() {
+		return libraryName + " " + username + "@" + url;
+	}
+
+
+	@Override
+	public boolean unlock() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

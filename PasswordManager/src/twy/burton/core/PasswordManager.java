@@ -5,12 +5,16 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import twy.burton.core.library.LocalPasswordLibrary;
 import twy.burton.core.library.PasswordLibrary;
 import twy.burton.core.library.RemotePasswordLibrary;
+import twy.burton.userinterface.Style;
 import twy.burton.utilities.FileAccess;
+import twy.burton.utilities.OutputConsole;
 
 public class PasswordManager {
 
@@ -19,9 +23,48 @@ public class PasswordManager {
 	
 	
 	public PasswordManager(){
-		
+		libraries = new ArrayList<PasswordLibrary>();
+	}
+
+	public void addLibrary( PasswordLibrary pl ){
+		libraries.add(pl);
 	}
 	
+	public PasswordLibrary getActiveLibrary(){
+		return activeLibrary;
+	}
+	
+	public boolean setActiveLibrary( int i ){
+		
+		Scanner scanner = new Scanner(System.in);
+		OutputConsole console = new OutputConsole( scanner );
+		
+		if( activeLibrary != null ) activeLibrary.lock();
+		
+		if ( i >= 0 && i < libraries.size() ){
+			activeLibrary = libraries.get(i);
+			boolean status = activeLibrary.unlock();
+			if( status ) {
+				console.println(activeLibrary.getLibraryName() + " Unlocked" , Style.GREEN);
+				return true;
+			}
+			console.println("Incorrect Password!" , Style.RED);
+		} else {
+			console.println("Library Does Not Exist!" , Style.RED);
+		}
+		activeLibrary = null;
+		return false;
+	}
+	
+	public boolean lock(){		
+		if( activeLibrary != null ) activeLibrary.lock();
+		activeLibrary = null;
+		return true;
+	}
+	
+	public List<PasswordLibrary> getLibraries(){
+		return libraries;
+	}
 	
 	public void writeLibrariesFile(){
 		
@@ -37,7 +80,7 @@ public class PasswordManager {
 			for( int i = 0 ; i < libraries.size(); i++ ){
 				
 				// Get the string representation of the library
-				byte[] store = libraries.get(i).getLibraryStoreString().getBytes();
+				byte[] store = libraries.get(i).getLibraryStoreString();
 				// Write size of data to file
 				out.write( FileAccess.int_to_bb_le(store.length) );
 				// Write data to file
@@ -85,20 +128,24 @@ public class PasswordManager {
 				int libraryType = in.read();
 				
 				// Create and add to libraries array
-				String storeString = "";
-				for( int j = 0 ; j < library.length; j++ ){
-					storeString += (char) library[j];
-				}
+				//String storeString = "";
+				//for( int j = 0 ; j < library.length; j++ ){
+				//	storeString += (char) library[j];
+				//}
+				
+				PasswordLibrary lib = null;
 				
 				if( libraryType == 1 ){
 					// Local
-					LocalPasswordLibrary lib = new LocalPasswordLibrary();
-					lib.createLibraryFromStoreString(storeString);
+					lib = new LocalPasswordLibrary();
+					lib.createLibraryFromStoreString(library);
 				} else if ( libraryType == 2 ){
 					// Remote
-					RemotePasswordLibrary lib = new RemotePasswordLibrary();
-					lib.createLibraryFromStoreString(storeString);
+					lib = new RemotePasswordLibrary();
+					lib.createLibraryFromStoreString(library);
 				}
+				
+				libraries.add(lib);
 			}
 
 			in.close();
