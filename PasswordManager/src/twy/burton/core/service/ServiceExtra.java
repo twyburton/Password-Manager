@@ -11,6 +11,7 @@ public class ServiceExtra {
 	private String value;
 	
 	public ServiceExtra( String key, String value){
+		key = key.replaceAll("\\s+","");
 		this.key = key;
 		this.value = value;
 	}
@@ -19,10 +20,19 @@ public class ServiceExtra {
 		
 	}
 	
+	/**
+	 * Set the service extra key.
+	 * @param key A small  key name of the extra.
+	 */
 	public void setKey( String key ){
+		key = key.replaceAll("\\s+","");
 		this.key = key;
 	}
 	
+	/**
+	 * Set the service extra value.
+	 * @param value
+	 */
 	public void setValue( String value ){
 		this.value = value;
 	}
@@ -36,6 +46,12 @@ public class ServiceExtra {
 	}
 	
 	public byte[] getServiceExtraBytes(){
+		
+		/*
+		 *  FORMAT:
+		 *  
+		 *  	Length of Extra Key [4] , Service Key [n] , Length of Extra Value [4], Extra Value [n]
+		 */
 		
 		// Get the total length
 		int servicelength = 4 + 4 + key.getBytes().length + value.getBytes().length;

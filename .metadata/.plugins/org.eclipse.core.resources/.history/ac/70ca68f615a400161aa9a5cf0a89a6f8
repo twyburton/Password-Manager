@@ -1,0 +1,16 @@
+package twy.burton.utilities;
+
+import java.util.Calendar;
+
+public class Timestamp {
+
+	public static String getTimestamp(){
+		Calendar cal = Calendar.getInstance();
+		return cal.toString();
+	}
+	
+	public static void main(String[] args){
+		System.out.print(getTimestamp());
+	}
+	
+}

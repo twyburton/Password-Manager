@@ -49,6 +49,13 @@ public class Service {
 		extras.add( serviceExtra );
 	}
 	
+	public void addServiceExtra( String key , String value ){
+		ServiceExtra ext = new ServiceExtra();
+		ext.setKey(key);
+		ext.setValue(value);
+		extras.add(ext);
+	}
+	
 	public List<ServiceExtra> getServiceExtras(){
 		return extras;
 	}
@@ -61,7 +68,23 @@ public class Service {
 		return extras.size();
 	}
 	
+	public boolean deleteServiceExtra( String key ){
+		for( int i = 0 ; i < extras.size(); i++ ){
+			if (extras.get(i).getKey().equals(key)){
+				extras.remove(i);
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public byte[] getServiceBytes(){
+		
+		/*
+		 *  FORMAT:
+		 *  
+		 *  	
+		 */
 		
 		// Get service extra stuff
 		int extraLength = 0;
@@ -77,6 +100,7 @@ public class Service {
 		
 		// Get total length
 		int length = 4 + 4 + 4 + 4 + nameBytes.length + usernameBytes.length + passwordBytes.length + extraLength;
+		
 		
 		byte[] data = new byte[length];
 		int x = 0;

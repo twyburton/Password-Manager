@@ -50,4 +50,18 @@ public class RemotePasswordLibrary extends PasswordLibrary {
 		return false;
 	}
 
+
+	@Override
+	public boolean validatePassword(String password) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+	@Override
+	public boolean changeLibraryPassword() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

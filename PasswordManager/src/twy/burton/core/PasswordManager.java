@@ -43,6 +43,7 @@ public class PasswordManager {
 		
 		if ( i >= 0 && i < libraries.size() ){
 			activeLibrary = libraries.get(i);
+			console.println("Unlocking " + activeLibrary.getLibraryName() + "..." , Style.GREEN);
 			boolean status = activeLibrary.unlock();
 			if( status ) {
 				console.println(activeLibrary.getLibraryName() + " Unlocked" , Style.GREEN);

@@ -1,14 +1,8 @@
 package twy.burton.core.library;
 
-import java.io.Console;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -39,52 +33,58 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 	}
 	
 	
+	private byte[] getDataToWriteToFile(){
+		// == PREPARE THE FILE TO WRITE ==
+			List<Byte> data = new ArrayList<Byte>();
+			
+			// == GET DATA TO WRITE ==
+			// Add random data and validation string
+			SecureRandom ran = new SecureRandom();
+			byte[] randomPadding = new byte[Constants.LENGTH_OF_RANDOM_BEFORE_ENCRYPTION]; 
+			ran.nextBytes(randomPadding);
+			for( int i = 0 ; i < Constants.LENGTH_OF_RANDOM_BEFORE_ENCRYPTION; i++ )
+				data.add( randomPadding[i] );
+			
+			byte[] valid = Constants.VALIDATION_STRING.getBytes();
+			for( int i = 0 ; i < valid.length; i++ )
+				data.add(valid[i]);
+			
+			// Number of services
+			int numberServices = services.size();
+			byte[] number = FileAccess.int_to_bb_le(numberServices);
+			for( int i = 0 ; i < 4; i++ ){
+				data.add(number[i]);
+			}
+			
+			// services
+			for( int i = 0 ; i < numberServices; i++ ){
+				byte[] s = services.get(i).getServiceBytes();
+				
+				number = FileAccess.int_to_bb_le(s.length);
+				for( int j = 0 ; j < 4; j++ ){
+					data.add(number[j]);
+				}
+				
+				for( int j = 0 ; j < s.length; j++ ){
+					data.add(s[j]);
+				}
+				
+			}
+			
+			// == WRITE TO FILE ==
+			// Convert data list to byte array
+			byte[] bytes = new byte[data.size()];
+			for( int i = 0 ; i < bytes.length; i++ ){
+				bytes[i] = data.get(i);
+			}
+			
+			return bytes;
+	}
+	
 	@Override
 	public boolean write() {
 		
-		// == PREPARE THE FILE TO WRITE ==
-		List<Byte> data = new ArrayList<Byte>();
-		
-		// == GET DATA TO WRITE ==
-		// Add random data and validation string
-		SecureRandom ran = new SecureRandom();
-		byte[] randomPadding = new byte[Constants.LENGTH_OF_RANDOM_BEFORE_ENCRYPTION]; 
-		ran.nextBytes(randomPadding);
-		for( int i = 0 ; i < Constants.LENGTH_OF_RANDOM_BEFORE_ENCRYPTION; i++ )
-			data.add( randomPadding[i] );
-		
-		byte[] valid = Constants.VALIDATION_STRING.getBytes();
-		for( int i = 0 ; i < valid.length; i++ )
-			data.add(valid[i]);
-		
-		// Number of services
-		int numberServices = services.size();
-		byte[] number = FileAccess.int_to_bb_le(numberServices);
-		for( int i = 0 ; i < 4; i++ ){
-			data.add(number[i]);
-		}
-		
-		// services
-		for( int i = 0 ; i < numberServices; i++ ){
-			byte[] s = services.get(i).getServiceBytes();
-			
-			number = FileAccess.int_to_bb_le(s.length);
-			for( int j = 0 ; j < 4; j++ ){
-				data.add(number[j]);
-			}
-			
-			for( int j = 0 ; j < s.length; j++ ){
-				data.add(s[j]);
-			}
-			
-		}
-		
-		// == WRITE TO FILE ==
-		// Convert data list to byte array
-		byte[] bytes = new byte[data.size()];
-		for( int i = 0 ; i < bytes.length; i++ ){
-			bytes[i] = data.get(i);
-		}
+		byte[] bytes = getDataToWriteToFile();
 		
 		// Input
 		Scanner scan = new Scanner(System.in);
@@ -162,7 +162,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 			// Get service length
 			byte[] inte = new byte[4];
 			for( int j = 0 ; j < inte.length; j++ ) inte[j] = store[p++];
-			int serviceLength = FileAccess.bb_to_int_le(inte);
+			//int serviceLength = FileAccess.bb_to_int_le(inte);
 			
 			// Get serviceName
 			inte = new byte[4];
@@ -200,7 +200,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 			for( int j = 0 ; j < inte.length; j++ ) inte[j] = store[p++];
 			int nServiceExtras = FileAccess.bb_to_int_le(inte);
 			
-			// Go though services
+			// Go though service extras
 			for( int u = 0 ; u < nServiceExtras; u++ ){
 				p += 4;
 				
@@ -301,6 +301,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 		return libraryName;
 	}
 
+	@Override
 	public boolean validatePassword( String password ){
 		String file = Constants.LIBRARIES_DIRECTORY + "/" + fileName ;
 		byte[] currentFileData;
@@ -325,5 +326,41 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 		return read();
 	}
 	
+	@Override
+	public boolean changeLibraryPassword(){
+		byte[] bytes = getDataToWriteToFile();
+		
+		// Input
+		Scanner scan = new Scanner(System.in);
+		OutputConsole con = new OutputConsole( scan);
+		
+		// File
+		String file = Constants.LIBRARIES_DIRECTORY + "/" + fileName ;
+		File f = new File( file );
+		if( f.exists() ){
+			// File already exists Validate Password before overwrite
+			String password = con.getSecurePassword("Old Manager Password");
+			
+			if( !this.validatePassword(password)){
+				con.println( "Incorrect Password" , Style.RED);
+				return false;
+			}
+			
+			// Get new password
+			password = con.getSecurePassword("New Manager Password");
+			String password2 = con.getSecurePassword("Retype Manager Password");
+			
+			if( !password.equals(password2) ){
+				con.println( "Passwords Do Not Match" , Style.RED);
+				return false;
+			}
+
+			// Write File
+			return PMAES.writeEncryptedFile(file, password, bytes);		
+						
+		}
+		return false;
+		
+	}
 	
 }

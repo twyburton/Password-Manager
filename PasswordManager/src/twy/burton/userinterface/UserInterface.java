@@ -1,6 +1,7 @@
 package twy.burton.userinterface;
 
 import java.io.File;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
@@ -9,10 +10,12 @@ import twy.burton.core.Constants;
 import twy.burton.core.PasswordManager;
 import twy.burton.core.library.LocalPasswordLibrary;
 import twy.burton.core.library.PasswordLibrary;
+import twy.burton.core.service.IdServicePair;
 import twy.burton.core.service.Service;
 import twy.burton.core.service.ServiceExtra;
 import twy.burton.utilities.OutputConsole;
 import twy.burton.utilities.PasswordGenerator;
+import twy.burton.utilities.Timestamp;
 
 public class UserInterface {
 
@@ -50,16 +53,16 @@ public class UserInterface {
 		
 		while( running ){
 			
-			// === GET USER INPUT ===
+			// ===== GET USER INPUT =====
 			
 			String prompt = Style.CYAN + "> " + Style.WHITE;
 			
 			if( pm.getActiveLibrary() != null )
-				prompt = Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN + "$ " + Style.WHITE;
+				prompt = "/" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN + "$ " + Style.WHITE;
 			
 			String[] input = console.getSeperatedInput(prompt);
 			
-			// === ACT ON INPUT ===
+			// ===== ACT ON INPUT =====
 			// Exit the system
 			if( input[0].equals( "exit" ) || input[0].equals("quit") ){
 				running = false;
@@ -82,15 +85,31 @@ public class UserInterface {
 					console.println("ls - List password libraries");
 					console.println("unlock [Library ID] - Unlock the library identified by Library ID");
 					console.println("createlocal - Create a local library");
+					console.println("importlocal - Import a local library");
+					console.println("importlegacy - Import a legacy local library");
 				} else {
 					console.println("ls - List all services");
+					
 					console.println("get <Service Name> - Returns a list of services containing the string <Service Name>");
 					console.println("new [Password Length] - Add a new service with a randomly generated password");
 					console.println("remove <Service ID> - Remove service with the service ID <Service ID>");
+					console.println("gen <Service ID> [Password Length] - Generate a new password for the service with the service ID <Service ID>");
+					console.println("set <Service ID> - Manualy set the password for the service with the service ID <Service ID>");
+					console.println("extraadd <Service ID> - Add a new service extra for the service with ID <Service ID>");
+					console.println("extraremove <Service ID> <Key> - Remove the service extra with key <Key> for the service with ID <Service ID>");
+					
+					console.println("password - Change the library password");
+					
 				}
 			}
 			
-			// List libraries or services if library is active
+			// -- Clear --
+			else if ( input[0].equals( "clear" )  ){
+				System.out.print("\033[H\033[2J");  
+			    System.out.flush();
+			}
+			
+			// -- List libraries or services if library is active --
 			else if ( input[0].equals("ls") ){
 				if( pm.getActiveLibrary() == null ){
 					
@@ -116,7 +135,7 @@ public class UserInterface {
 				}
 			}
 			
-			// Unlock a library
+			// -- Unlock a library --
 			else if ( input[0].equals( "unlock" ) ) {
 				if( input.length == 2 ){
 					int libraryNumber = Integer.parseInt(input[1]);
@@ -128,12 +147,12 @@ public class UserInterface {
 				}
 			}
 			
-			// Lock library
+			// -- Lock library --
 			else if ( input[0].equals( "lock" ) ) {
 				pm.lock();
 			}
 			
-			// Create a local library
+			// -- Create a local library --
 			else if ( input[0].equals( "createlocal" ) ) {
 				
 				String libraryName = console.getInput("Library Name> ");
@@ -149,7 +168,33 @@ public class UserInterface {
 				
 			}
 			
-			// Create a remote library
+			// -- Create a local library --
+			else if ( input[0].equals( "importlegacy" ) ) {
+				
+				String libraryName = console.getInput("Library Name> ");
+				String libraryFileName = UUID.randomUUID().toString() + ".pm";
+				
+				LocalPasswordLibrary lpl = new LocalPasswordLibrary();
+				lpl.setLibraryName(libraryName);
+				lpl.setFileName(libraryFileName);
+				
+				if(lpl.importLegacyLibrary()){
+					
+					lpl.write();
+					pm.addLibrary(lpl);
+					pm.writeLibrariesFile();
+					
+					console.println("Library imported.",Style.GREEN);
+					
+				} else {
+					console.println("Library NOT imported.",Style.RED);
+				}
+				
+				
+				
+			}
+			
+			// -- Create a remote library --
 			else if ( input[0].equals( "createremote" ) ) {
 		
 			}
@@ -160,15 +205,32 @@ public class UserInterface {
 				// -- get --
 				if( input[0].equals("get") ){
 					if( input.length == 2 ){
-						List<Service> matches = pm.getActiveLibrary().getServiceByName( input[1] );
+						List<IdServicePair> matches = pm.getActiveLibrary().getServiceByName( input[1] );
+						
+						console.println("");
+						console.println("\t" + Style.MAGENTA + Style.STYLE_UNDERLINE_ON + matches.size() + " Match(es)"
+								+ Style.STYLE_UNDERLINE_OFF + Style.WHITE);
 						
 						if( matches.size() > 0 ){
 							for( int i = 0 ; i < matches.size() ; i++ ){
-								Service ser = matches.get(i);
-								console.println( ser.getName() + "\t" + ser.getUsername() + "\t" + ser.getPassword() );
+								Service ser = matches.get(i).getService();
+								int id = matches.get(i).getServiceId();
+								
+								console.println( "\t" + id + " /" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN 
+										+ "$" + Style.WHITE + ser.getName() + "\t" + ser.getUsername() 
+										+ "\t" + ser.getPassword() );
+								for( int u = 0 ; u < ser.getServiceExtras().size(); u++ ){
+									ServiceExtra extra = ser.getServiceExtras().get(u);
+									console.println("\t\t/" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN
+											+ "$" + Style.WHITE + ser.getName() + "." + extra.getKey() + "\t" + extra.getValue());
+								}
+								console.println("");
 							}
+							
+							
 						} else {
-							console.println("No Matches");
+							console.println("\tNo Matches");
+							console.println("");
 						}
 						
 					} else {
@@ -194,6 +256,8 @@ public class UserInterface {
 					String password = PasswordGenerator.generateRandomPassword(passwordLength);
 					ser.setPassword(password);
 					
+					ser.addServiceExtra("LastUpdated", Timestamp.getTimestamp() );
+					
 					pm.getActiveLibrary().addService(ser);
 					
 					while ( !pm.getActiveLibrary().write() );
@@ -201,13 +265,13 @@ public class UserInterface {
 				}
 				
 				// -- Remove --
-				if( input[0].equals("remove") ){
+				else if( input[0].equals("remove") ){
 					if( input.length == 2 ){
 						try {
 							int serviceid = Integer.parseInt( input[1] );
 						
 							if( pm.getActiveLibrary().getServiceById(serviceid) != null ){
-								console.println("Are you sure you want to remove the password for " 
+								console.println("Are you sure you want to remove the service " 
 										+ pm.getActiveLibrary().getServiceById(serviceid).getName()+ "? ");
 								console.println("(This cannot be undone!)");
 								String yes_no_input = console.getInput("[y/n] ");
@@ -220,16 +284,12 @@ public class UserInterface {
 										console.println("Service does not exist.",Style.RED);
 									}
 								} else {
-									console.println("The password has NOT been removed.",Style.GREEN);
+									console.println("The service has NOT been removed.",Style.GREEN);
 								}
 								
 							} else {
 								console.println("Service does not exist.",Style.RED);
 							}
-							
-							
-							
-							
 							
 						} catch (NumberFormatException e) {
 							console.println("Usage: remove <service ID>");
@@ -237,6 +297,194 @@ public class UserInterface {
 						
 					} else {
 						console.println("Usage: remove <service ID>");
+					}
+				}
+				
+				// -- Set --
+				else if( input[0].equals("set") ){
+					if( input.length == 2 ){
+						try {
+							int serviceid = Integer.parseInt( input[1] );
+						
+							if( pm.getActiveLibrary().getServiceById(serviceid) != null ){
+								
+								String oldPassword = pm.getActiveLibrary().getServiceById(serviceid).getPassword();
+								String password = console.getInput("New Password > ");
+								String password2 = console.getInput("Retype New Password > ");
+								
+								if( password.equals(password2)){
+									console.println("Are you sure you want to change the password for '" 
+											+ pm.getActiveLibrary().getServiceById(serviceid).getName()+ "'? ");
+									console.println("(This cannot be undone!)");
+									String yes_no_input = console.getInput("[y/n] ");
+									if( yes_no_input.toLowerCase().equals("y") ){
+										
+										Service ser = pm.getActiveLibrary().getServiceById(serviceid);
+										
+										ser.setPassword(password);
+										ser.deleteServiceExtra("LastUpdated");
+										ser.addServiceExtra("LastUpdated", Timestamp.getTimestamp() );
+										
+										while ( !pm.getActiveLibrary().write() );
+										
+										console.println("The password has been changed.",Style.GREEN);
+										console.println("Old Password: " + oldPassword );
+										
+									} else {
+										console.println("The password has NOT been changed.",Style.RED);
+									}
+								} else {
+									console.println("The entered password do not match. The password has NOT been changed.",Style.RED);
+								}
+								
+								
+								
+							} else {
+								console.println("Service does not exist.",Style.RED);
+							}
+							
+						} catch (NumberFormatException e) {
+							console.println("Usage: set <service ID>");
+						}
+						
+					} else {
+						console.println("Usage: set <service ID>");
+					}
+				}
+				
+				
+				// -- Gen --
+				else if( input[0].equals("gen") ){
+					if( input.length >= 2 ){
+						try {
+							int serviceid = Integer.parseInt( input[1] );
+							int passwordLength = Constants.DEFAULT_PASSWORD_LENGTH;
+							if( input.length == 3 ){
+								passwordLength = Integer.parseInt( input[2] );
+							}
+						
+							Service ser = pm.getActiveLibrary().getServiceById(serviceid);
+							
+							if( ser != null ){
+								console.println("Are you sure you want to re-generate the password for " 
+										+ pm.getActiveLibrary().getServiceById(serviceid).getName()+ "? ");
+								console.println("(This cannot be undone!)");
+								console.println("Old Password: " + ser.getPassword());
+								String yes_no_input = console.getInput("[y/n] ");
+								if( yes_no_input.toLowerCase().equals("y") ){
+									
+									String newPassword = PasswordGenerator.generateRandomPassword(passwordLength);
+									ser.setPassword(newPassword);
+									console.println("The new password is: " + newPassword);
+									
+									ser.deleteServiceExtra("LastUpdated");
+									ser.addServiceExtra("LastUpdated", Timestamp.getTimestamp() );
+									
+									while ( !pm.getActiveLibrary().write() );
+									
+									console.println("The old password will NOT be shown again!", Style.RED);
+									
+								} else {
+									console.println("The password has NOT been changed.",Style.GREEN);
+								}
+							} else {
+								console.println("Service does not exist.",Style.RED);
+							}
+							
+							
+						} catch (NumberFormatException e) {
+							console.println("Usage: gen <service ID> [Password Length]");
+						}
+						
+					} else {
+						console.println("Usage: gen <service ID> [Password Length]");
+					}
+				}
+				
+				// -- Add service extra --
+				else if( input[0].equals("extraadd") ){
+					if( input.length == 2 ){
+						try {
+							int serviceId = Integer.parseInt(input[1]);
+							Service ser = pm.getActiveLibrary().getServiceById(serviceId);
+		
+							if( ser != null ){
+								String extraKey = console.getInput("Extra Key > ");
+								String extraValue = console.getInput("Extra Value > ");
+								
+								ServiceExtra extra = new ServiceExtra();
+								extra.setKey(extraKey);
+								extra.setValue(extraValue);
+								
+								ser.addServiceExtra(extra);
+								
+								while ( !pm.getActiveLibrary().write() );
+								
+								console.println("The Service Extra has been added.", Style.GREEN);
+								
+							} else { 
+								console.println("Service does not exist.",Style.RED);
+							}
+						
+						} catch (NumberFormatException e) {
+							console.println("Usage: extraadd <service ID>");
+						}
+					} else {
+						console.println("Usage: extraadd <service ID>");
+					}
+				}
+				
+				// -- Add service extra --
+				else if( input[0].equals("extraremove") ){
+					if( input.length == 3 ){
+						try {
+							int serviceId = Integer.parseInt(input[1]);
+							Service ser = pm.getActiveLibrary().getServiceById(serviceId);
+							
+							if( ser != null ){
+								
+								console.println("Are you sure you want to remove the service extra '" + input[2] + "' for " 
+										+ pm.getActiveLibrary().getServiceById(serviceId).getName()+ "? ");
+								console.println("(This cannot be undone!)");
+								String yes_no_input = console.getInput("[y/n] ");
+								if( yes_no_input.toLowerCase().equals("y") ){
+									
+									for( int i = 0 ; i < ser.getServiceExtras().size(); i++ ){
+										ServiceExtra ext = ser.getServiceExtras().get(i);
+										if( ext.getKey().equals(input[2]) ){
+											console.println( "\t" + ext.getKey() + "\t" + ext.getValue() );
+											ser.getServiceExtras().remove(i);
+										}
+									}
+									
+									while ( !pm.getActiveLibrary().write() );
+									
+									console.println("\tThe above service extra(s) have been deleted. You will not be able to see them again!", Style.RED); 
+									
+									
+								} else {
+									console.println("The service extra(s) has not been removed.",Style.GREEN);
+								}
+								
+							} else { 
+								console.println("Service does not exist.",Style.RED);
+							}
+							
+							
+						} catch (NumberFormatException e) {
+							console.println("Usage: extraremove <service ID> <Key>");
+						}
+					} else {
+						console.println("Usage: extraremove <service ID> <Key>");
+					}
+				}
+				
+				// -- password --
+				else if( input[0].equals("password") ){
+					if( pm.getActiveLibrary().changeLibraryPassword() ){
+						console.println("Your library password has been changed.",Style.GREEN);
+					} else {
+						console.println("Your library password has NOT been changed.",Style.RED);
 					}
 				}
 			}
