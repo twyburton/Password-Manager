@@ -51,6 +51,8 @@ public class UserInterface {
 	
 	public void run(){
 		
+		console.println( pm.getLibraries().size() + " Libraries Available\n", Style.GREEN );
+		
 		while( running ){
 			
 			// ===== GET USER INPUT =====
@@ -89,6 +91,8 @@ public class UserInterface {
 					console.println("importlegacy - Import a legacy local library");
 				} else {
 					console.println("ls - List all services");
+					console.println("password - Change the library password");
+					console.println("");
 					
 					console.println("get <Service Name> - Returns a list of services containing the string <Service Name>");
 					console.println("new [Password Length] - Add a new service with a randomly generated password");
@@ -97,8 +101,6 @@ public class UserInterface {
 					console.println("set <Service ID> - Manualy set the password for the service with the service ID <Service ID>");
 					console.println("extraadd <Service ID> - Add a new service extra for the service with ID <Service ID>");
 					console.println("extraremove <Service ID> <Key> - Remove the service extra with key <Key> for the service with ID <Service ID>");
-					
-					console.println("password - Change the library password");
 					
 				}
 			}
