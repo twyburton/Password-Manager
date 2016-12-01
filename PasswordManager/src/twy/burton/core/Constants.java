@@ -2,7 +2,7 @@ package twy.burton.core;
 
 public class Constants {
 	public static String PROGRAM_NAME = "Password Manager";
-	public static String PROGRAM_VERSION = "2.0.0";
+	public static String PROGRAM_VERSION = "3.0.0";
 	
 	public static String HOME_DIRECTORY = System.getProperty("user.home");
 	public static String MANAGER_DIRECTORY = HOME_DIRECTORY  + "/.BasicPasswordManager";
@@ -10,7 +10,6 @@ public class Constants {
 	// The file that saves a users list of libraries
 	public static String LIBRARIES_FILE = MANAGER_DIRECTORY + "/PasswordLibraries.lf";
 	
-	//
 	public static String LIBRARIES_DIRECTORY = MANAGER_DIRECTORY + "/libraries";
 	
 	public static String HASHING_SALT = "XZxjdJoOtaygV15OJqWQYq#zQJUG0fmMfYe*#hWQABf$cTguZt";
@@ -23,7 +22,7 @@ public class Constants {
 	public static String VALIDATION_STRING = "28ISD8K12O0DKA2MKK2DSSF"; 
 	
 	
-	
+	// Constants used for random password generation
 	public static int DEFAULT_PASSWORD_LENGTH = 20;
 	public static char[] PASSWORD_CHARACTERS = {'A','B','C','D','E','F','G','H','I','J'
 			,'K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z','a'

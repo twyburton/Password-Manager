@@ -1,7 +1,7 @@
 package twy.burton.userinterface;
 
 import java.io.File;
-import java.util.Calendar;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
@@ -56,7 +56,6 @@ public class UserInterface {
 		while( running ){
 			
 			// ===== GET USER INPUT =====
-			
 			String prompt = Style.CYAN + "> " + Style.WHITE;
 			
 			if( pm.getActiveLibrary() != null )
@@ -80,6 +79,8 @@ public class UserInterface {
 				
 				console.println("exit - Exit password manager");
 				console.println("help - Help page");
+				
+				console.println("info - Program infomation");
 				
 				console.println("");
 				
@@ -199,6 +200,14 @@ public class UserInterface {
 			// -- Create a remote library --
 			else if ( input[0].equals( "createremote" ) ) {
 		
+			}
+			
+			// -- Print details about the program --
+			else if ( input[0].equals( "info" ) ) {
+				console.println("\nVersion: " + Constants.PROGRAM_NAME + " " + Constants.PROGRAM_VERSION );
+				console.println("Default Password Length: " + Constants.DEFAULT_PASSWORD_LENGTH);
+				console.println("Password Character Set: " + Arrays.toString(Constants.PASSWORD_CHARACTERS));
+				console.println("");
 			}
 			
 			

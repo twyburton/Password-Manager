@@ -19,36 +19,69 @@ public class Service {
 	
 	
 	// ==== Basic Service Functions ====
+	/**
+	 * Get the name of the service
+	 * @return The name of the service
+	 */
 	public String getName() {
 		return name;
 	}
 
+	/**
+	 * Set the name of the service
+	 * @param name The name of the service
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Get the username for the service
+	 * @return The username of the service
+	 */
 	public String getUsername() {
 		return username;
 	}
 
+	/**
+	 * Set the username of the service
+	 * @param username The username of the service
+	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
+	/**
+	 * Get the password of the service
+	 * @return The password of the service
+	 */
 	public String getPassword() {
 		return password;
 	}
 	
+	/**
+	 * Set the password of the service
+	 * @param password The password of the service
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
 	
 	
 	// ==== Service Extras Functions ====
+	/**
+	 * Add a service extra to the service
+	 * @param serviceExtra The service extra to add
+	 */
 	public void addServiceExtra( ServiceExtra serviceExtra ){
 		extras.add( serviceExtra );
 	}
 	
+	/**
+	 * Add a service extra to the service by defining the key and value pair
+	 * @param key The key
+	 * @param value The value
+	 */
 	public void addServiceExtra( String key , String value ){
 		ServiceExtra ext = new ServiceExtra();
 		ext.setKey(key);
@@ -56,18 +89,36 @@ public class Service {
 		extras.add(ext);
 	}
 	
+	/**
+	 * Get the list of service extras
+	 * @return The list of service extras
+	 */
 	public List<ServiceExtra> getServiceExtras(){
 		return extras;
 	}
 	
+	/**
+	 * Get the service extra at index i in the list
+	 * @param i The service extra index
+	 * @return The service extra object
+	 */
 	public ServiceExtra getServiceExtra( int i ){
 		return extras.get(i);
 	}
 	
+	/**
+	 * Get the number of service extras
+	 * @return The number of service extras
+	 */
 	public int getServiceExtrasSize(){
 		return extras.size();
 	}
 	
+	/**
+	 * Delete a service extra
+	 * @param key The key of the service extra you want to delete
+	 * @return true if a service extra was deleted
+	 */
 	public boolean deleteServiceExtra( String key ){
 		for( int i = 0 ; i < extras.size(); i++ ){
 			if (extras.get(i).getKey().equals(key)){
@@ -78,6 +129,10 @@ public class Service {
 		return false;
 	}
 	
+	/**
+	 * Get the byte representation of the service so that it can be written to a binary file
+	 * @return The byte representation of the service
+	 */
 	public byte[] getServiceBytes(){
 		
 		/*

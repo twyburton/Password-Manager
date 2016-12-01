@@ -28,11 +28,11 @@
 <fullyQualifiedTypeName name="twy.burton.core.library.legacy.LegacyLibrary"/>
 <fullyQualifiedTypeName name="java.security.MessageDigest"/>
 <fullyQualifiedTypeName name="java.security.NoSuchAlgorithmException"/>
-<fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="java.security.SecureRandom"/>
 <fullyQualifiedTypeName name="javax.crypto.spec.SecretKeySpec"/>
 <fullyQualifiedTypeName name="javax.crypto.Cipher"/>
 <fullyQualifiedTypeName name="javax.crypto.spec.IvParameterSpec"/>
 <fullyQualifiedTypeName name="twy.burton.security.LegacyAES"/>
 <fullyQualifiedTypeName name="java.io.File"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
 </qualifiedTypeNameHistroy>

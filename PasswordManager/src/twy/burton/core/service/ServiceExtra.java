@@ -31,20 +31,32 @@ public class ServiceExtra {
 	
 	/**
 	 * Set the service extra value.
-	 * @param value
+	 * @param value the value of the extra
 	 */
 	public void setValue( String value ){
 		this.value = value;
 	}
 	
+	/**
+	 * Get the service extra key.
+	 * @return The key of the service extra 
+	 */
 	public String getKey(){
 		return key;
 	}
 	
+	/**
+	 * Get the service extra value.
+	 * @return The value of the service extra 
+	 */
 	public String getValue(){
 		return value;
 	}
 	
+	/**
+	 * Get a byte representation of the service extra that can then be saved in a binary file.
+	 * @return The byte representation
+	 */
 	public byte[] getServiceExtraBytes(){
 		
 		/*
