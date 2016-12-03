@@ -120,7 +120,7 @@ public class UserInterface {
 			    System.out.flush();
 			}
 			
-			// -- Print random string --
+			// -- 
 			else if( input[0].equals("random") ){
 				
 				int length = Constants.DEFAULT_PASSWORD_LENGTH;
