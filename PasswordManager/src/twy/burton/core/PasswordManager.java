@@ -46,6 +46,7 @@ public class PasswordManager {
 			console.println("Unlocking " + activeLibrary.getLibraryName() + "..." , Style.GREEN);
 			boolean status = activeLibrary.unlock();
 			if( status ) {
+				console.println( "Library Version: " + activeLibrary.getLibraryVersion() );
 				console.println(activeLibrary.getLibraryName() + " Unlocked" , Style.GREEN);
 				return true;
 			}

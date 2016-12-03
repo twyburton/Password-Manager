@@ -3,6 +3,7 @@ package twy.burton.core;
 public class Constants {
 	public static String PROGRAM_NAME = "Password Manager";
 	public static String PROGRAM_VERSION = "3.1.0";
+	public static byte[] PROGRAM_VERSION_ARRAY = {3,1,0};
 	
 	public static String HOME_DIRECTORY = System.getProperty("user.home");
 	public static String MANAGER_DIRECTORY = HOME_DIRECTORY  + "/.BasicPasswordManager";

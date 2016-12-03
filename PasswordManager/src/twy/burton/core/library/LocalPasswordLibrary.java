@@ -51,6 +51,11 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 			for( int i = 0 ; i < valid.length; i++ )
 				data.add(valid[i]);
 			
+			// library version
+			data.add(Constants.PROGRAM_VERSION_ARRAY[0]);
+			data.add(Constants.PROGRAM_VERSION_ARRAY[1]);
+			data.add(Constants.PROGRAM_VERSION_ARRAY[2]);
+			
 			// Number of services
 			int numberServices = services.size();
 			byte[] number = FileAccess.int_to_bb_le(numberServices);
@@ -155,6 +160,15 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 		
 		// == POPULATE OBJECT ==
 		int p = 0;
+		
+		// Library version
+		byte[] libraryVersion = new byte[3];
+		libraryVersion[0] = store[p++];
+		libraryVersion[1] = store[p++];
+		libraryVersion[2] = store[p++];
+		
+		this.libraryVersion = libraryVersion[0] + "." + libraryVersion[1] + "." + libraryVersion[2];
+		
 		services = new ArrayList<Service>();
 		// Get Number of services
 		byte[] n_services = new byte[4];

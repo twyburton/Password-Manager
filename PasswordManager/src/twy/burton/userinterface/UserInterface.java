@@ -88,6 +88,7 @@ public class UserInterface {
 				console.println("help - Help page");
 				
 				console.println("info - Program infomation");
+				console.println("random [Password Length] - Program infomation");
 				
 				console.println("");
 				
@@ -117,6 +118,17 @@ public class UserInterface {
 			else if ( input[0].equals( "clear" )  ){
 				System.out.print("\033[H\033[2J");  
 			    System.out.flush();
+			}
+			
+			// -- 
+			else if( input[0].equals("random") ){
+				
+				int length = Constants.DEFAULT_PASSWORD_LENGTH;
+				if( input.length == 2 ){
+					length = Integer.parseInt( input[1] );
+				}
+				
+				console.println( PasswordGenerator.generateRandomPassword(length));
 			}
 			
 			// -- List libraries or services if library is active --

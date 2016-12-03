@@ -14,6 +14,7 @@ public abstract class PasswordLibrary {
 
 	protected String libraryName;
 	protected List<Service> services = new ArrayList<Service>();
+	protected String libraryVersion = "Unknown";
 	
 	public PasswordLibrary(){
 		
@@ -125,6 +126,10 @@ public abstract class PasswordLibrary {
 		
 		
 		return true;
+	}
+	
+	public String getLibraryVersion(){
+		return libraryVersion;
 	}
 }
 

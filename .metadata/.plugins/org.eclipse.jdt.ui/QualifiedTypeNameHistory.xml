@@ -13,7 +13,6 @@
 <fullyQualifiedTypeName name="java.util.Scanner"/>
 <fullyQualifiedTypeName name="twy.burton.userinterface.Style"/>
 <fullyQualifiedTypeName name="twy.burton.core.service.ServiceExtra"/>
-<fullyQualifiedTypeName name="twy.burton.core.Constants"/>
 <fullyQualifiedTypeName name="twy.burton.utilities.PasswordGenerator"/>
 <fullyQualifiedTypeName name="java.util.Calendar"/>
 <fullyQualifiedTypeName name="twy.burton.utilities.Timestamp"/>
@@ -28,7 +27,6 @@
 <fullyQualifiedTypeName name="twy.burton.core.library.legacy.LegacyLibrary"/>
 <fullyQualifiedTypeName name="java.security.MessageDigest"/>
 <fullyQualifiedTypeName name="java.security.NoSuchAlgorithmException"/>
-<fullyQualifiedTypeName name="java.security.SecureRandom"/>
 <fullyQualifiedTypeName name="javax.crypto.spec.SecretKeySpec"/>
 <fullyQualifiedTypeName name="javax.crypto.Cipher"/>
 <fullyQualifiedTypeName name="javax.crypto.spec.IvParameterSpec"/>
@@ -38,4 +36,7 @@
 <fullyQualifiedTypeName name="java.io.OutputStream"/>
 <fullyQualifiedTypeName name="org.omg.CORBA.portable.InputStream"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="java.security.SecureRandom"/>
+<fullyQualifiedTypeName name="twy.burton.utilities.ArrayUtils"/>
+<fullyQualifiedTypeName name="twy.burton.core.Constants"/>
 </qualifiedTypeNameHistroy>
