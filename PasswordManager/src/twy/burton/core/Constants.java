@@ -2,7 +2,7 @@ package twy.burton.core;
 
 public class Constants {
 	public static String PROGRAM_NAME = "Password Manager";
-	public static String PROGRAM_VERSION = "3.0.0";
+	public static String PROGRAM_VERSION = "3.1.0";
 	
 	public static String HOME_DIRECTORY = System.getProperty("user.home");
 	public static String MANAGER_DIRECTORY = HOME_DIRECTORY  + "/.BasicPasswordManager";
@@ -14,8 +14,7 @@ public class Constants {
 	
 	public static String HASHING_SALT = "XZxjdJoOtaygV15OJqWQYq#zQJUG0fmMfYe*#hWQABf$cTguZt";
 	public static int NUMBER_OF_TIMES_TO_HASH_PASSWORD = 10;
-	public static String ENCRYPTION_INITIAL_VECTOR_STRING = "p298nTa0O*dnxyhf";
-	public static byte[] ENCRYPTION_INITIAL_VECTOR = ENCRYPTION_INITIAL_VECTOR_STRING.getBytes();
+	public static int ENCRYPTION_INITIAL_VECTOR_LENGTH = 16;
 	
 	
 	public static int LENGTH_OF_RANDOM_BEFORE_ENCRYPTION = 20;

@@ -26,7 +26,7 @@ public class PMAES extends AES{
 		
 		try {
 			// Encrypt data
-			data = encrypt( data , key , Constants.ENCRYPTION_INITIAL_VECTOR);
+			data = encrypt( data , key );
 			
 			// Write encrypted data to file
 			File file = new File( filename );
@@ -57,7 +57,7 @@ public class PMAES extends AES{
 			in.close();
 			
 			// Decrypt file
-			data = decrypt( data , key , Constants.ENCRYPTION_INITIAL_VECTOR );
+			data = decrypt( data , key );
 			return data;
 		} catch ( InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException | IOException e) {
 			// TODO Auto-generated catch block

@@ -24,14 +24,20 @@ public class UserInterface {
 	private OutputConsole console = new OutputConsole( scanner );
 	private PasswordManager pm = new PasswordManager();
 	
+	/**
+	 * Print user interface header
+	 */
 	public UserInterface(){
 		console.clear();
 		console.println( Style.STYLE_UNDERLINE_ON + Constants.PROGRAM_NAME + " " + Constants.PROGRAM_VERSION + Style.STYLE_UNDERLINE_OFF );
 	}
 	
-	// Perform first time setup. This includes creating directories and blank library files.
+	/**
+	 *  Perform first time setup. This includes creating directories and blank library files.
+	 */
 	public void firstSetup(){
 		
+		// Check directory Exists
 		String[] required_folders = {Constants.MANAGER_DIRECTORY, Constants.LIBRARIES_DIRECTORY};
 		for( int i = 0 ; i < required_folders.length; i++ ){
 			File folder = new File(required_folders[i]);
@@ -40,6 +46,7 @@ public class UserInterface {
 			}
 		}
 		
+		// Check Library file exists
 		File libraries_file = new File(Constants.LIBRARIES_FILE);
 		if( libraries_file.exists() ){
 			pm.readLibrariesFile();
