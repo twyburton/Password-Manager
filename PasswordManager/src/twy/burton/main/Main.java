@@ -12,7 +12,7 @@ public class Main {
 	 *  
 	 *  			A user can have several password Libraries. These can be stored on a remote server
 	 *  		or on the users own computer. Each password library contains many services. A service 
-	 *  		consists of a Name, Username and Password.
+	 *  		consists of a Name, Username, Password and possibly password extras.
 	 * 
 	 * 
 	 * 

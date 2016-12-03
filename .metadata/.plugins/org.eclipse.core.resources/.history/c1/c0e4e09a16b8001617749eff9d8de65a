@@ -1,0 +1,16 @@
+package twy.burton.experiments;
+
+import java.io.IOException;
+
+public class Experiment {
+
+	public static void main(String[] args) throws IOException {
+		
+		Runtime rt = Runtime.getRuntime();
+		System.out.println(rt.availableProcessors());
+		Process pr = rt.exec("D:\Documents\Projects\PasswordManager\Password-Manager\PasswordManager.cmd");
+		
+		
+	}
+
+}
