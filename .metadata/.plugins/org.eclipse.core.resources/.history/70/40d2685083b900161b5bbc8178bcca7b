@@ -6,8 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import javax.crypto.BadPaddingException;
-
 import twy.burton.core.Constants;
 import twy.burton.core.service.Service;
 import twy.burton.core.service.ServiceExtra;
@@ -136,13 +134,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 		
 		// == READ FILE ==
 		String filename = Constants.LIBRARIES_DIRECTORY + "/" + fileName ;
-		byte[] data;
-		try {
-			data = PMAES.readEncryptedFile(filename, password);
-		} catch (BadPaddingException e) {
-			// Most likely bad password. Should have been caught above.
-			return false;
-		}
+		byte[] data = PMAES.readEncryptedFile(filename, password);
 		
 		// == REMOVE RANDOM AND VALIDATION DATA ==
 		int preLength = Constants.LENGTH_OF_RANDOM_BEFORE_ENCRYPTION + Constants.VALIDATION_STRING.length();
@@ -152,6 +144,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 		for( int i = 0 ; i < store.length;i++){
 			store[i] = data[ i + preLength ];
 		}
+		
 		
 		// == POPULATE OBJECT ==
 		int p = 0;
@@ -314,7 +307,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 		byte[] currentFileData;
 		try {
 			currentFileData = PMAES.readEncryptedFile(file , password);
-		} catch (ArrayIndexOutOfBoundsException | BadPaddingException e ){
+		} catch (ArrayIndexOutOfBoundsException e ){
 			// Bad padding. Therefore wrong password.
 			return false;
 		}

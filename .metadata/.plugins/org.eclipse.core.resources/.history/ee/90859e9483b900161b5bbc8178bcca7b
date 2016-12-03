@@ -13,7 +13,7 @@ public class Constants {
 	public static String LIBRARIES_DIRECTORY = MANAGER_DIRECTORY + "/libraries";
 	
 	public static String HASHING_SALT = "XZxjdJoOtaygV15OJqWQYq#zQJUG0fmMfYe*#hWQABf$cTguZt";
-	public static int NUMBER_OF_TIMES_TO_HASH_PASSWORD = 1000;
+	public static int NUMBER_OF_TIMES_TO_HASH_PASSWORD = 10;
 	public static int ENCRYPTION_INITIAL_VECTOR_LENGTH = 16;
 	
 	

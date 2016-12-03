@@ -153,6 +153,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 			store[i] = data[ i + preLength ];
 		}
 		
+		
 		// == POPULATE OBJECT ==
 		int p = 0;
 		services = new ArrayList<Service>();

@@ -22,7 +22,7 @@ public class PMAES extends AES{
 	
 	public static boolean writeEncryptedFile( String filename, String password , byte[] data){
 		// Get key from password
-		byte[] key = passwordToKey( password , Constants.NUMBER_OF_TIMES_TO_HASH_PASSWORD );
+		byte[] key = passwordToKey( password , 1000 );
 		
 		try {
 			// Encrypt data
@@ -44,7 +44,7 @@ public class PMAES extends AES{
 	
 	public static byte[] readEncryptedFile( String filename, String password ) throws BadPaddingException{
 		// Get key from password
-		byte[] key = passwordToKey( password, Constants.NUMBER_OF_TIMES_TO_HASH_PASSWORD );
+		byte[] key = passwordToKey( password, 1000 );
 		
 		
 		try {

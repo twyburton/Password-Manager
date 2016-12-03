@@ -136,13 +136,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 		
 		// == READ FILE ==
 		String filename = Constants.LIBRARIES_DIRECTORY + "/" + fileName ;
-		byte[] data;
-		try {
-			data = PMAES.readEncryptedFile(filename, password);
-		} catch (BadPaddingException e) {
-			// Most likely bad password. Should have been caught above.
-			return false;
-		}
+		byte[] data = PMAES.readEncryptedFile(filename, password);
 		
 		// == REMOVE RANDOM AND VALIDATION DATA ==
 		int preLength = Constants.LENGTH_OF_RANDOM_BEFORE_ENCRYPTION + Constants.VALIDATION_STRING.length();
@@ -152,6 +146,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 		for( int i = 0 ; i < store.length;i++){
 			store[i] = data[ i + preLength ];
 		}
+		
 		
 		// == POPULATE OBJECT ==
 		int p = 0;
