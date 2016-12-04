@@ -261,7 +261,8 @@ public class UserInterface {
 								
 								if( matches.size() == 1 && i == 0){
 									// Copy password to clipboard
-									StringSelection stringSelection = new StringSelection( ser.getPassword() );
+									String myString = "This text will be copied into clipboard when running this code!";
+									StringSelection stringSelection = new StringSelection(myString);
 									Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
 									clpbrd.setContents(stringSelection, null);
 								}
