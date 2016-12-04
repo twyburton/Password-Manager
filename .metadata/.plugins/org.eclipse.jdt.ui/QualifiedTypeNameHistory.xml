@@ -39,4 +39,7 @@
 <fullyQualifiedTypeName name="java.security.SecureRandom"/>
 <fullyQualifiedTypeName name="twy.burton.utilities.ArrayUtils"/>
 <fullyQualifiedTypeName name="twy.burton.core.Constants"/>
+<fullyQualifiedTypeName name="java.awt.datatransfer.StringSelection"/>
+<fullyQualifiedTypeName name="java.awt.datatransfer.Clipboard"/>
+<fullyQualifiedTypeName name="java.awt.Toolkit"/>
 </qualifiedTypeNameHistroy>

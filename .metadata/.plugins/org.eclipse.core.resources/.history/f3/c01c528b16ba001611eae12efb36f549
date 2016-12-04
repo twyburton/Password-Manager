@@ -264,8 +264,7 @@ public class UserInterface {
 									StringSelection stringSelection = new StringSelection( ser.getPassword() );
 									Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
 									clpbrd.setContents(stringSelection, null);
-									console.println("\tCopied To Clipboard!", Style.MAGENTA );
-									console.println("");
+									System.out.println("Copied To Clipboard!");
 								}
 								
 							}
