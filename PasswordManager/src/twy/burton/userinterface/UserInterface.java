@@ -131,7 +131,7 @@ public class UserInterface {
 					length = Integer.parseInt( input[1] );
 				}
 				
-				console.println( PasswordGenerator.generateRandomPassword(length));
+				console.println( PasswordGenerator.generateRandomPassword(length) );
 			}
 			
 			// -- List libraries or services if library is active --
@@ -215,8 +215,6 @@ public class UserInterface {
 					console.println("Library NOT imported.",Style.RED);
 				}
 				
-				
-				
 			}
 			
 			// -- Create a remote library --
@@ -231,7 +229,6 @@ public class UserInterface {
 				console.println("Password Character Set: " + Arrays.toString(Constants.PASSWORD_CHARACTERS));
 				console.println("");
 			}
-			
 			
 			// === FUNCTIONS WHEN LIBRARY IS ACTIVE ===
 			else if ( pm.getActiveLibrary() != null ){

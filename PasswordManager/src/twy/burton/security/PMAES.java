@@ -2,7 +2,6 @@ package twy.burton.security;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.security.InvalidAlgorithmParameterException;
@@ -67,9 +66,13 @@ public class PMAES extends AES{
 		return null;
 	}
 	
-	// Convert the password into the encryption key
+	/**
+	 * Convert the password into the encryption key. This involves hashing the password many times.
+	 * @param password The password string
+	 * @param numberTimesToHash The number of times to hash the password
+	 * @return The encryption key in a byte array
+	 */
 	private static byte[] passwordToKey( String password, int numberTimesToHash ){
-		password = Constants.HASHING_SALT + password;
 		byte[] hash = singleHash( password.getBytes() );
 		for( int i = 0 ; i < numberTimesToHash; i++ ){
 			hash = singleHash( hash );
@@ -77,7 +80,11 @@ public class PMAES extends AES{
 		return hash;
 	}
 	
-	// Perform a SHA-256 hash
+	/**
+	 * Perform a SHA-256 hash
+	 * @param input The byte array of data to hash
+	 * @return A byte array of the hashed data
+	 */
 	private static byte[] singleHash( byte[] input ){
 		try {
 			MessageDigest hash = MessageDigest.getInstance("SHA-256");

@@ -2,8 +2,6 @@ package twy.burton.test.service;
 
 import static org.junit.Assert.*;
 
-import java.util.Arrays;
-
 import org.junit.Test;
 
 import twy.burton.core.service.Service;

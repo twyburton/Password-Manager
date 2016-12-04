@@ -5,7 +5,6 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
-import java.util.Arrays;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -40,14 +39,20 @@ public class AES {
 		byte[] iv = new byte[Constants.ENCRYPTION_INITIAL_VECTOR_LENGTH];
 		random.nextBytes(iv);
 		
+		// Add random pre data
+		SecureRandom ran = new SecureRandom();
+		byte[]  randomPreData = new byte[Constants.LENGTH_OF_RANDOM_BEFORE_ENCRYPTION]; 
+		ran.nextBytes( randomPreData);
+		
 		// Encrypt data
 		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 		SecretKeySpec key = new SecretKeySpec(encryptionKey, "AES");
 		cipher.init(Cipher.ENCRYPT_MODE, key,new IvParameterSpec( iv ));
-		byte[] cipherText = cipher.doFinal( plainText );
+		byte[] cipherText = cipher.doFinal( ArrayUtils.concat( randomPreData, plainText) );
 		
 		// Concatenate IV and cipher text
 		return ArrayUtils.concat(iv, cipherText);
+		
 	}
 	
 	/**
@@ -65,7 +70,6 @@ public class AES {
 	 */
 	public static byte[] decrypt(byte[] cipherText, byte[] encryptionKey ) throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
 		
-		
 		// Get IV from cipher text
 		byte[] iv = new byte[Constants.ENCRYPTION_INITIAL_VECTOR_LENGTH];
 		byte[] data = new byte[ cipherText.length - iv.length ];
@@ -77,6 +81,13 @@ public class AES {
 		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
 		SecretKeySpec key = new SecretKeySpec(encryptionKey, "AES");
 		cipher.init(Cipher.DECRYPT_MODE, key,new IvParameterSpec( iv ));	
-		return cipher.doFinal(data);
+		byte[] plain =  cipher.doFinal(data);
+		
+		// Remove random pre data
+		byte[] plainWithoutRandom = new byte[plain.length - Constants.LENGTH_OF_RANDOM_BEFORE_ENCRYPTION];
+		for( int i = 0 ; i < plainWithoutRandom.length; i++ )
+			plainWithoutRandom[i] = plain[i + Constants.LENGTH_OF_RANDOM_BEFORE_ENCRYPTION ];
+		return plainWithoutRandom;
+		
 	}
 }
