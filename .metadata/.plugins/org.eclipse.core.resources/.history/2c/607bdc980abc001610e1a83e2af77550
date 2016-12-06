@@ -106,7 +106,7 @@ public class UserInterface {
 					console.println("password - Change the library password");
 					console.println("");
 					
-					console.println("get <Service Name> - Returns a list of services containing the string <Service Name> and copy to clipboard");
+					console.println("get <Service Name> - Returns a list of services containing the string <Service Name>");
 					console.println("show <Service Name> - Returns a list of services containing the string <Service Name> showing the password");
 					console.println("new [Password Length] - Add a new service with a randomly generated password");
 					console.println("remove <Service ID> - Remove service with the service ID <Service ID>");
@@ -247,12 +247,12 @@ public class UserInterface {
 								Service ser = matches.get(i).getService();
 								int id = matches.get(i).getServiceId();
 								
-								String passwordStarred = String.format(String.format("%%%ds", ser.getPassword().length()), " ").replace(" ","*");
+								String password = String.format(String.format("%%%ds", ser.getPassword().length()), " ").replace(" ","*");
 								
-								console.println( "\t" + id + " /" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN 
+								console.print( "\t" + id + " /" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN 
 										+ "$" + Style.WHITE + ser.getName() + "\t" + ser.getUsername() 
-										+ "\t" + passwordStarred );
-								
+										+ "\t" + password );
+								console.println("TEST");
 								
 								for( int u = 0 ; u < ser.getServiceExtras().size(); u++ ){
 									ServiceExtra extra = ser.getServiceExtras().get(u);
