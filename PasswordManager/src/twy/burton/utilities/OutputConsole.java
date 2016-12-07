@@ -3,8 +3,6 @@ package twy.burton.utilities;
 import java.io.Console;
 import java.util.Scanner;
 
-import twy.burton.userinterface.Style;
-
 public class OutputConsole {
 	
 	Scanner scan;
