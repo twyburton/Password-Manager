@@ -1,6 +1,7 @@
 package twy.burton.client.core.library;
 
 import java.io.File;
+import java.security.InvalidKeyException;
 import java.util.Scanner;
 
 import javax.crypto.BadPaddingException;
@@ -63,7 +64,12 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 		}
 		
 		// Write File
-		return PMAES.writeEncryptedFile(file, password, bytes);
+		try {
+			return PMAES.writeEncryptedFile(file, password, bytes);
+		} catch (InvalidKeyException e) {
+			con.println("Invalid Key Length. You must install Java Cryptography Extension (JCE)", Style.RED);
+			return false;
+		}
 		
 	}
 
@@ -87,6 +93,9 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 			data = PMAES.readEncryptedFile(filename, password);
 		} catch (BadPaddingException e) {
 			// Most likely bad password. Should have been caught above.
+			return false;
+		} catch (InvalidKeyException e) {
+			con.println("Invalid Key Length. You must install Java Cryptography Extension (JCE)", Style.RED);
 			return false;
 		}
 		
@@ -160,12 +169,18 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 
 	@Override
 	public boolean validatePassword( String password ){
+		Scanner scan = new Scanner(System.in);
+		OutputConsole con = new OutputConsole( scan);
+		
 		String file = Constants.LIBRARIES_DIRECTORY + "/" + fileName ;
 		byte[] currentFileData;
 		try {
 			currentFileData = PMAES.readEncryptedFile(file , password);
 		} catch (ArrayIndexOutOfBoundsException | BadPaddingException e ){
 			// Bad padding. Therefore wrong password.
+			return false;
+		} catch (InvalidKeyException e) {
+			con.println("Invalid Key Length. You must install Java Cryptography Extension (JCE)", Style.RED);
 			return false;
 		}
 		
@@ -213,7 +228,12 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 			}
 
 			// Write File
-			return PMAES.writeEncryptedFile(file, password, bytes);		
+			try {
+				return PMAES.writeEncryptedFile(file, password, bytes);
+			} catch (InvalidKeyException e) {
+				con.println("Invalid Key Length. You must install Java Cryptography Extension (JCE)", Style.RED);
+				return false;
+			}		
 						
 		}
 		return false;

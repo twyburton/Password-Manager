@@ -32,7 +32,7 @@ public class AES {
 	 * @throws IllegalBlockSizeException
 	 * @throws BadPaddingException
 	 */
-	public static byte[] encrypt(byte[] plainText, byte[] encryptionKey) throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
+	public static byte[] encrypt(byte[] plainText, byte[] encryptionKey) throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		
 		// Create Initial Vector
 		SecureRandom random = new SecureRandom();
@@ -68,7 +68,7 @@ public class AES {
 	 * @throws IllegalBlockSizeException
 	 * @throws BadPaddingException
 	 */
-	public static byte[] decrypt(byte[] cipherText, byte[] encryptionKey ) throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException {
+	public static byte[] decrypt(byte[] cipherText, byte[] encryptionKey ) throws NoSuchAlgorithmException, NoSuchProviderException, NoSuchPaddingException, InvalidKeyException, InvalidAlgorithmParameterException, IllegalBlockSizeException, BadPaddingException, InvalidKeyException {
 		
 		// Get IV from cipher text
 		byte[] iv = new byte[Constants.ENCRYPTION_INITIAL_VECTOR_LENGTH];

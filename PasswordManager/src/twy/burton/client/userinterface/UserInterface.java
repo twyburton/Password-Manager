@@ -76,7 +76,7 @@ public class UserInterface {
 			
 			// ===== ACT ON INPUT =====
 			// Exit the system
-			if( input[0].equals( "exit" ) || input[0].equals("quit") ){
+			if( input[0].equals( "exit" ) || input[0].equals("quit") || input[0].equals("q") || input[0].equals("e") ){
 				running = false;
 			}
 			
@@ -98,7 +98,7 @@ public class UserInterface {
 				
 				if( pm.getActiveLibrary() == null ){
 					console.println("ls - List password libraries");
-					console.println("unlock [Library ID] - Unlock the library identified by Library ID");
+					console.println("unlock [Library ID] or u [Library ID] - Unlock the library identified by Library ID");
 					console.println("createlocal - Create a local library");
 					console.println("importlocal - Import a local library");
 					console.println("importlegacy - Import a legacy local library");
@@ -163,7 +163,7 @@ public class UserInterface {
 			}
 			
 			// -- Unlock a library --
-			else if ( input[0].equals( "unlock" ) ) {
+			else if ( input[0].equals( "unlock" ) || input[0].equals( "u" )) {
 				if( input.length == 2 ){
 					int libraryNumber = Integer.parseInt(input[1]);
 					pm.setActiveLibrary( libraryNumber );
@@ -577,6 +577,15 @@ public class UserInterface {
 		scanner.close();
 		console.clear();
 		
+	}
+	
+	/**
+	 * This is used to print messages to the console when the system is not running.
+	 * For example, after an update.
+	 * @param msg The string of the message to print.
+	 */
+	public void message( String msg ){
+		console.println(msg ,Style.YELLOW );
 	}
 	
 }

@@ -18,8 +18,28 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
+		// Flags
+		boolean updated = false;
+		
+		// Get arguments
+		for( int i = 0 ; i < args.length; i++ ){
+			
+			if( args[i].equals("-updated")){
+				updated = true;
+			}
+			
+		}
+		
+		// Set up the interface
 		UserInterface ui = new UserInterface();
 		ui.firstSetup();
+		
+		// Print any message to console
+		if( updated ){
+			ui.message("Software Updated!");
+		}
+		
+		// Run user interface
 		ui.run();
 
 	}

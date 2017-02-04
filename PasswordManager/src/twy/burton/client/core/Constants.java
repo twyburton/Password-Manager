@@ -13,12 +13,12 @@ public class Constants {
 	
 	public static String LIBRARIES_DIRECTORY = MANAGER_DIRECTORY + "/libraries";
 	
-	public static int NUMBER_OF_TIMES_TO_HASH_PASSWORD = 1000;
+	public static int NUMBER_OF_TIMES_TO_HASH_PASSWORD = 100000;
 	public static int ENCRYPTION_INITIAL_VECTOR_LENGTH = 16;
 	
 	
 	public static int LENGTH_OF_RANDOM_BEFORE_ENCRYPTION = 20;
-	public static String VALIDATION_STRING = "28ISD8K12O0DKA2MKK2DSSF"; 
+	public static String VALIDATION_STRING = "28ISD8K12O0DKA2MKK2DSSF";
 	
 	
 	// Constants used for random password generation

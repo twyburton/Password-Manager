@@ -19,9 +19,9 @@ import twy.burton.client.core.Constants;
 public class PMAES extends AES{
 
 	
-	public static boolean writeEncryptedFile( String filename, String password , byte[] data){
+	public static boolean writeEncryptedFile( String filename, String password , byte[] data) throws InvalidKeyException{
 		// Get key from password
-		byte[] key = passwordToKey( password , Constants.NUMBER_OF_TIMES_TO_HASH_PASSWORD );
+		byte[] key = passwordToKey( password, Constants.NUMBER_OF_TIMES_TO_HASH_PASSWORD );
 		
 		try {
 			// Encrypt data
@@ -33,7 +33,7 @@ public class PMAES extends AES{
 			out.write( data );
 			out.close();
 			
-		} catch (IOException | InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+		} catch (IOException | NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
 			e.printStackTrace();
 			return false;
 		} 
@@ -41,7 +41,7 @@ public class PMAES extends AES{
 		return true;
 	}
 	
-	public static byte[] readEncryptedFile( String filename, String password ) throws BadPaddingException{
+	public static byte[] readEncryptedFile( String filename, String password ) throws BadPaddingException, InvalidKeyException{
 		// Get key from password
 		byte[] key = passwordToKey( password, Constants.NUMBER_OF_TIMES_TO_HASH_PASSWORD );
 		
@@ -58,7 +58,7 @@ public class PMAES extends AES{
 			// Decrypt file
 			data = decrypt( data , key );
 			return data;
-		} catch ( InvalidKeyException | NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException | InvalidAlgorithmParameterException | IllegalBlockSizeException | IOException e) {
+		} catch ( NoSuchAlgorithmException | NoSuchProviderException | NoSuchPaddingException | InvalidAlgorithmParameterException | IllegalBlockSizeException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
