@@ -6,13 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import twy.burton.client.core.library.LocalPasswordLibrary;
 import twy.burton.client.core.library.PasswordLibrary;
 import twy.burton.client.core.library.RemotePasswordLibrary;
 import twy.burton.utilities.FileAccess;
-import twy.burton.utilities.OutputConsole;
+import twy.burton.utilities.TConsole;
 import twy.burton.utilities.Style;
 
 public class PasswordManager {
@@ -35,23 +34,20 @@ public class PasswordManager {
 	
 	public boolean setActiveLibrary( int i ){
 		
-		Scanner scanner = new Scanner(System.in);
-		OutputConsole console = new OutputConsole( scanner );
-		
 		if( activeLibrary != null ) activeLibrary.lock();
 		
 		if ( i >= 0 && i < libraries.size() ){
 			activeLibrary = libraries.get(i);
-			console.println("Unlocking " + activeLibrary.getLibraryName() + "..." , Style.GREEN);
+			TConsole.println("Unlocking " + activeLibrary.getLibraryName() + "..." , Style.GREEN);
 			boolean status = activeLibrary.unlock();
 			if( status ) {
-				console.println( "Library Version: " + activeLibrary.getLibraryVersion() );
-				console.println(activeLibrary.getLibraryName() + " Unlocked" , Style.GREEN);
+				TConsole.println( "Library Version: " + activeLibrary.getLibraryVersion() );
+				TConsole.println(activeLibrary.getLibraryName() + " Unlocked" , Style.GREEN);
 				return true;
 			}
-			console.println("Incorrect Password!" , Style.RED);
+			TConsole.println("Incorrect Password!" , Style.RED);
 		} else {
-			console.println("Library Does Not Exist!" , Style.RED);
+			TConsole.println("Library Does Not Exist!" , Style.RED);
 		}
 		activeLibrary = null;
 		return false;

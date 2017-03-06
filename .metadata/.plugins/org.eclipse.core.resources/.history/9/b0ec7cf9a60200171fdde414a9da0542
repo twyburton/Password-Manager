@@ -1,0 +1,32 @@
+package twy.burton.security;
+
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.Signature;
+import java.security.SignatureException;
+import java.util.Base64;
+
+public class T21Signature {
+
+	public static String sign(byte[] plainText, PrivateKey privateKey) throws NoSuchAlgorithmException, SignatureException, InvalidKeyException {
+		Signature privateSignature = Signature.getInstance("SHA256withRSA");
+		privateSignature.initSign(privateKey);
+		privateSignature.update(plainText);
+		
+		byte[] signature = privateSignature.sign();
+		
+		return Base64.getEncoder().encodeToString(signature);
+	}
+	
+	public static boolean verify(byte[] plainText, String signature, PublicKey publicKey) throws Exception {
+		Signature publicSignature = Signature.getInstance("SHA256withRSA");
+		publicSignature.initVerify(publicKey);
+		publicSignature.update(plainText);
+		
+		byte[] signatureBytes = Base64.getDecoder().decode(signature);
+		
+		return publicSignature.verify(signatureBytes);
+	}
+}

@@ -6,7 +6,6 @@ import java.awt.datatransfer.StringSelection;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 import java.util.UUID;
 
 import twy.burton.client.core.Constants;
@@ -16,24 +15,22 @@ import twy.burton.client.core.library.PasswordLibrary;
 import twy.burton.client.core.service.IdServicePair;
 import twy.burton.client.core.service.Service;
 import twy.burton.client.core.service.ServiceExtra;
-import twy.burton.utilities.OutputConsole;
+import twy.burton.utilities.TConsole;
 import twy.burton.utilities.PasswordGenerator;
 import twy.burton.utilities.Style;
 import twy.burton.utilities.Timestamp;
 
 public class UserInterface {
 
-	private Scanner scanner = new Scanner(System.in);
 	private boolean running = true;
-	private OutputConsole console = new OutputConsole( scanner );
 	private PasswordManager pm = new PasswordManager();
 	
 	/**
 	 * Print user interface header
 	 */
 	public UserInterface(){
-		console.clear();
-		console.println( Style.STYLE_UNDERLINE_ON + Constants.PROGRAM_NAME + " " + Constants.PROGRAM_VERSION + Style.STYLE_UNDERLINE_OFF );
+		TConsole.clear();
+		TConsole.println( Style.STYLE_UNDERLINE_ON + Constants.PROGRAM_NAME + " " + Constants.PROGRAM_VERSION + Style.STYLE_UNDERLINE_OFF );
 	}
 	
 	/**
@@ -62,7 +59,7 @@ public class UserInterface {
 	
 	public void run(){
 		
-		console.println( pm.getLibraries().size() + " Libraries Available\n", Style.GREEN );
+		TConsole.println( pm.getLibraries().size() + " Libraries Available\n", Style.GREEN );
 		
 		while( running ){
 			
@@ -72,7 +69,7 @@ public class UserInterface {
 			if( pm.getActiveLibrary() != null )
 				prompt = "/" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN + "$ " + Style.WHITE;
 			
-			String[] input = console.getSeperatedInput(prompt);
+			String[] input = TConsole.getSeperatedInput(prompt);
 			
 			// ===== ACT ON INPUT =====
 			// Exit the system
@@ -82,39 +79,39 @@ public class UserInterface {
 			
 			// Help display
 			else if ( input[0].equals( "help" ) || input[0].equals( "?" ) || input[0].equals( "man" ) ){
-				console.println(Style.STYLE_UNDERLINE_ON + "Help" + Style.STYLE_UNDERLINE_OFF);
+				TConsole.println(Style.STYLE_UNDERLINE_ON + "Help" + Style.STYLE_UNDERLINE_OFF);
 				
-				console.println("");
-				console.println("<Param> - Required, [Param] - Optional");
-				console.println("");
+				TConsole.println("");
+				TConsole.println("<Param> - Required, [Param] - Optional");
+				TConsole.println("");
 				
-				console.println("exit - Exit password manager");
-				console.println("help - Help page");
+				TConsole.println("exit - Exit password manager");
+				TConsole.println("help - Help page");
 				
-				console.println("info - Program infomation");
-				console.println("random [Password Length] - Program infomation");
+				TConsole.println("info - Program infomation");
+				TConsole.println("random [Password Length] - Program infomation");
 				
-				console.println("");
+				TConsole.println("");
 				
 				if( pm.getActiveLibrary() == null ){
-					console.println("ls - List password libraries");
-					console.println("unlock [Library ID] or u [Library ID] - Unlock the library identified by Library ID");
-					console.println("createlocal - Create a local library");
-					console.println("importlocal - Import a local library");
-					console.println("importlegacy - Import a legacy local library");
+					TConsole.println("ls - List password libraries");
+					TConsole.println("unlock [Library ID] or u [Library ID] - Unlock the library identified by Library ID");
+					TConsole.println("createlocal - Create a local library");
+					TConsole.println("importlocal - Import a local library");
+					TConsole.println("importlegacy - Import a legacy local library");
 				} else {
-					console.println("ls - List all services");
-					console.println("password - Change the library password");
-					console.println("");
+					TConsole.println("ls - List all services");
+					TConsole.println("password - Change the library password");
+					TConsole.println("");
 					
-					console.println("get <Service Name> - Returns a list of services containing the string <Service Name> and copy to clipboard");
-					console.println("show <Service Name> - Returns a list of services containing the string <Service Name> showing the password");
-					console.println("new [Password Length] - Add a new service with a randomly generated password");
-					console.println("remove <Service ID> - Remove service with the service ID <Service ID>");
-					console.println("gen <Service ID> [Password Length] - Generate a new password for the service with the service ID <Service ID>");
-					console.println("set <Service ID> - Manualy set the password for the service with the service ID <Service ID>");
-					console.println("extraadd <Service ID> - Add a new service extra for the service with ID <Service ID>");
-					console.println("extraremove <Service ID> <Key> - Remove the service extra with key <Key> for the service with ID <Service ID>");
+					TConsole.println("get <Service Name> - Returns a list of services containing the string <Service Name> and copy to clipboard");
+					TConsole.println("show <Service Name> - Returns a list of services containing the string <Service Name> showing the password");
+					TConsole.println("new [Password Length] - Add a new service with a randomly generated password");
+					TConsole.println("remove <Service ID> - Remove service with the service ID <Service ID>");
+					TConsole.println("gen <Service ID> [Password Length] - Generate a new password for the service with the service ID <Service ID>");
+					TConsole.println("set <Service ID> - Manualy set the password for the service with the service ID <Service ID>");
+					TConsole.println("extraadd <Service ID> - Add a new service extra for the service with ID <Service ID>");
+					TConsole.println("extraremove <Service ID> <Key> - Remove the service extra with key <Key> for the service with ID <Service ID>");
 					
 				}
 			}
@@ -133,7 +130,7 @@ public class UserInterface {
 					length = Integer.parseInt( input[1] );
 				}
 				
-				console.println( PasswordGenerator.generateRandomPassword(length) );
+				TConsole.println( PasswordGenerator.generateRandomPassword(length) );
 			}
 			
 			// -- List libraries or services if library is active --
@@ -141,24 +138,24 @@ public class UserInterface {
 				if( pm.getActiveLibrary() == null ){
 					
 					List<PasswordLibrary> libs = pm.getLibraries();
-					console.print(Style.STYLE_UNDERLINE_ON + "Libraries" + Style.STYLE_UNDERLINE_OFF);
+					TConsole.print(Style.STYLE_UNDERLINE_ON + "Libraries" + Style.STYLE_UNDERLINE_OFF);
 					
 					for( int i = 0 ; i < libs.size(); i++ ){
-						console.print( "\n" + i + " " + libs.get(i).getLibraryName() );
+						TConsole.print( "\n" + i + " " + libs.get(i).getLibraryName() );
 					}
 					
-					console.print("\n");
+					TConsole.print("\n");
 					
 					
 				} else {
 					PasswordLibrary lib = pm.getActiveLibrary();
-					console.print(Style.STYLE_UNDERLINE_ON + "Services" + Style.STYLE_UNDERLINE_OFF);
+					TConsole.print(Style.STYLE_UNDERLINE_ON + "Services" + Style.STYLE_UNDERLINE_OFF);
 					
 					for( int i = 0 ; i < lib.getServices().size(); i++ ){
-						console.print( "\n" + i + " " + lib.getServices().get(i).getName() );
+						TConsole.print( "\n" + i + " " + lib.getServices().get(i).getName() );
 					}
 					
-					console.print("\n");
+					TConsole.print("\n");
 				}
 			}
 			
@@ -170,7 +167,7 @@ public class UserInterface {
 				} else if (input.length == 1 ){
 					pm.setActiveLibrary(0);
 				} else {
-					console.println("Usage: unlock <Library ID>");
+					TConsole.println("Usage: unlock <Library ID>");
 				}
 			}
 			
@@ -182,7 +179,7 @@ public class UserInterface {
 			// -- Create a local library --
 			else if ( input[0].equals( "createlocal" ) ) {
 				
-				String libraryName = console.getInput("Library Name> ");
+				String libraryName = TConsole.getInput("Library Name> ");
 				String libraryFileName = UUID.randomUUID().toString() + ".pm";
 				
 				LocalPasswordLibrary lpl = new LocalPasswordLibrary();
@@ -198,7 +195,7 @@ public class UserInterface {
 			// -- Create a local library --
 			else if ( input[0].equals( "importlegacy" ) ) {
 				
-				String libraryName = console.getInput("Library Name> ");
+				String libraryName = TConsole.getInput("Library Name> ");
 				String libraryFileName = UUID.randomUUID().toString() + ".pm";
 				
 				LocalPasswordLibrary lpl = new LocalPasswordLibrary();
@@ -211,10 +208,10 @@ public class UserInterface {
 					pm.addLibrary(lpl);
 					pm.writeLibrariesFile();
 					
-					console.println("Library imported.",Style.GREEN);
+					TConsole.println("Library imported.",Style.GREEN);
 					
 				} else {
-					console.println("Library NOT imported.",Style.RED);
+					TConsole.println("Library NOT imported.",Style.RED);
 				}
 				
 			}
@@ -226,10 +223,10 @@ public class UserInterface {
 			
 			// -- Print details about the program --
 			else if ( input[0].equals( "info" ) ) {
-				console.println("\nVersion: " + Constants.PROGRAM_NAME + " " + Constants.PROGRAM_VERSION );
-				console.println("Default Password Length: " + Constants.DEFAULT_PASSWORD_LENGTH);
-				console.println("Password Character Set: " + Arrays.toString(Constants.PASSWORD_CHARACTERS));
-				console.println("");
+				TConsole.println("\nVersion: " + Constants.PROGRAM_NAME + " " + Constants.PROGRAM_VERSION );
+				TConsole.println("Default Password Length: " + Constants.DEFAULT_PASSWORD_LENGTH);
+				TConsole.println("Password Character Set: " + Arrays.toString(Constants.PASSWORD_CHARACTERS));
+				TConsole.println("");
 			}
 			
 			// === FUNCTIONS WHEN LIBRARY IS ACTIVE ===
@@ -239,8 +236,8 @@ public class UserInterface {
 					if( input.length == 2 ){
 						List<IdServicePair> matches = pm.getActiveLibrary().getServiceByName( input[1] );
 						
-						console.println("");
-						console.println("\t" + Style.MAGENTA + Style.STYLE_UNDERLINE_ON + matches.size() + " Match(es)"
+						TConsole.println("");
+						TConsole.println("\t" + Style.MAGENTA + Style.STYLE_UNDERLINE_ON + matches.size() + " Match(es)"
 								+ Style.STYLE_UNDERLINE_OFF + Style.WHITE);
 						
 						if( matches.size() > 0 ){
@@ -250,37 +247,37 @@ public class UserInterface {
 								
 								String passwordStarred = String.format(String.format("%%%ds", ser.getPassword().length()), " ").replace(" ","*");
 								
-								console.println( "\t" + id + " /" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN 
+								TConsole.println( "\t" + id + " /" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN 
 										+ "$" + Style.WHITE + ser.getName() + "\t" + ser.getUsername() 
 										+ "\t" + passwordStarred );
 								
 								
 								for( int u = 0 ; u < ser.getServiceExtras().size(); u++ ){
 									ServiceExtra extra = ser.getServiceExtras().get(u);
-									console.println("\t\t/" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN
+									TConsole.println("\t\t/" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN
 											+ "$" + Style.WHITE + ser.getName() + "." + extra.getKey() + "\t" + extra.getValue());
 								}
-								console.println("");
+								TConsole.println("");
 								
 								if( matches.size() == 1 && i == 0){
 									// Copy password to clipboard
 									StringSelection stringSelection = new StringSelection( ser.getPassword() );
 									Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
 									clpbrd.setContents(stringSelection, null);
-									console.println("\tCopied To Clipboard!", Style.MAGENTA );
-									console.println("");
+									TConsole.println("\tCopied To Clipboard!", Style.MAGENTA );
+									TConsole.println("");
 								}
 								
 							}
 							
 							
 						} else {
-							console.println("\tNo Matches");
-							console.println("");
+							TConsole.println("\tNo Matches");
+							TConsole.println("");
 						}
 						
 					} else {
-						console.println("Usage: get <service name>");
+						TConsole.println("Usage: get <service name>");
 					}
 				}
 				
@@ -289,8 +286,8 @@ public class UserInterface {
 					if( input.length == 2 ){
 						List<IdServicePair> matches = pm.getActiveLibrary().getServiceByName( input[1] );
 						
-						console.println("");
-						console.println("\t" + Style.MAGENTA + Style.STYLE_UNDERLINE_ON + matches.size() + " Match(es)"
+						TConsole.println("");
+						TConsole.println("\t" + Style.MAGENTA + Style.STYLE_UNDERLINE_ON + matches.size() + " Match(es)"
 								+ Style.STYLE_UNDERLINE_OFF + Style.WHITE);
 						
 						if( matches.size() > 0 ){
@@ -298,33 +295,33 @@ public class UserInterface {
 								Service ser = matches.get(i).getService();
 								int id = matches.get(i).getServiceId();
 								
-								console.println( "\t" + id + " /" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN 
+								TConsole.println( "\t" + id + " /" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN 
 										+ "$" + Style.WHITE + ser.getName() + "\t" + ser.getUsername() 
 										+ "\t" + ser.getPassword() );
 								for( int u = 0 ; u < ser.getServiceExtras().size(); u++ ){
 									ServiceExtra extra = ser.getServiceExtras().get(u);
-									console.println("\t\t/" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN
+									TConsole.println("\t\t/" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN
 											+ "$" + Style.WHITE + ser.getName() + "." + extra.getKey() + "\t" + extra.getValue());
 								}
-								console.println("");	
+								TConsole.println("");	
 							}
 							
 							
 						} else {
-							console.println("\tNo Matches");
-							console.println("");
+							TConsole.println("\tNo Matches");
+							TConsole.println("");
 						}
 						
 					} else {
-						console.println("Usage: show <service name>");
+						TConsole.println("Usage: show <service name>");
 					}
 				}
 				
 				// -- New --
 				else if( input[0].equals("new") ){
 					
-					String name = console.getInput("Service Name > ");
-					String username = console.getInput("Service Username > ");
+					String name = TConsole.getInput("Service Name > ");
+					String username = TConsole.getInput("Service Username > ");
 					
 					Service ser = new Service();
 					ser.setName(name);
@@ -353,32 +350,32 @@ public class UserInterface {
 							int serviceid = Integer.parseInt( input[1] );
 						
 							if( pm.getActiveLibrary().getServiceById(serviceid) != null ){
-								console.println("Are you sure you want to remove the service " 
+								TConsole.println("Are you sure you want to remove the service " 
 										+ pm.getActiveLibrary().getServiceById(serviceid).getName()+ "? ");
-								console.println("(This cannot be undone!)");
-								String yes_no_input = console.getInput("[y/n] ");
+								TConsole.println("(This cannot be undone!)");
+								String yes_no_input = TConsole.getInput("[y/n] ");
 								if( yes_no_input.toLowerCase().equals("y") ){
 									if ( pm.getActiveLibrary().removeServiceById( serviceid )){
 										
 										while ( !pm.getActiveLibrary().write() );
 										
 									} else {
-										console.println("Service does not exist.",Style.RED);
+										TConsole.println("Service does not exist.",Style.RED);
 									}
 								} else {
-									console.println("The service has NOT been removed.",Style.GREEN);
+									TConsole.println("The service has NOT been removed.",Style.GREEN);
 								}
 								
 							} else {
-								console.println("Service does not exist.",Style.RED);
+								TConsole.println("Service does not exist.",Style.RED);
 							}
 							
 						} catch (NumberFormatException e) {
-							console.println("Usage: remove <service ID>");
+							TConsole.println("Usage: remove <service ID>");
 						}
 						
 					} else {
-						console.println("Usage: remove <service ID>");
+						TConsole.println("Usage: remove <service ID>");
 					}
 				}
 				
@@ -391,14 +388,14 @@ public class UserInterface {
 							if( pm.getActiveLibrary().getServiceById(serviceid) != null ){
 								
 								String oldPassword = pm.getActiveLibrary().getServiceById(serviceid).getPassword();
-								String password = console.getInput("New Password > ");
-								String password2 = console.getInput("Retype New Password > ");
+								String password = TConsole.getInput("New Password > ");
+								String password2 = TConsole.getInput("Retype New Password > ");
 								
 								if( password.equals(password2)){
-									console.println("Are you sure you want to change the password for '" 
+									TConsole.println("Are you sure you want to change the password for '" 
 											+ pm.getActiveLibrary().getServiceById(serviceid).getName()+ "'? ");
-									console.println("(This cannot be undone!)");
-									String yes_no_input = console.getInput("[y/n] ");
+									TConsole.println("(This cannot be undone!)");
+									String yes_no_input = TConsole.getInput("[y/n] ");
 									if( yes_no_input.toLowerCase().equals("y") ){
 										
 										Service ser = pm.getActiveLibrary().getServiceById(serviceid);
@@ -409,28 +406,28 @@ public class UserInterface {
 										
 										while ( !pm.getActiveLibrary().write() );
 										
-										console.println("The password has been changed.",Style.GREEN);
-										console.println("Old Password: " + oldPassword );
+										TConsole.println("The password has been changed.",Style.GREEN);
+										TConsole.println("Old Password: " + oldPassword );
 										
 									} else {
-										console.println("The password has NOT been changed.",Style.RED);
+										TConsole.println("The password has NOT been changed.",Style.RED);
 									}
 								} else {
-									console.println("The entered password do not match. The password has NOT been changed.",Style.RED);
+									TConsole.println("The entered password do not match. The password has NOT been changed.",Style.RED);
 								}
 								
 								
 								
 							} else {
-								console.println("Service does not exist.",Style.RED);
+								TConsole.println("Service does not exist.",Style.RED);
 							}
 							
 						} catch (NumberFormatException e) {
-							console.println("Usage: set <service ID>");
+							TConsole.println("Usage: set <service ID>");
 						}
 						
 					} else {
-						console.println("Usage: set <service ID>");
+						TConsole.println("Usage: set <service ID>");
 					}
 				}
 				
@@ -448,38 +445,38 @@ public class UserInterface {
 							Service ser = pm.getActiveLibrary().getServiceById(serviceid);
 							
 							if( ser != null ){
-								console.println("Are you sure you want to re-generate the password for " 
+								TConsole.println("Are you sure you want to re-generate the password for " 
 										+ pm.getActiveLibrary().getServiceById(serviceid).getName()+ "? ");
-								console.println("(This cannot be undone!)");
-								console.println("Old Password: " + ser.getPassword());
-								String yes_no_input = console.getInput("[y/n] ");
+								TConsole.println("(This cannot be undone!)");
+								TConsole.println("Old Password: " + ser.getPassword());
+								String yes_no_input = TConsole.getInput("[y/n] ");
 								if( yes_no_input.toLowerCase().equals("y") ){
 									
 									String newPassword = PasswordGenerator.generateRandomPassword(passwordLength);
 									ser.setPassword(newPassword);
-									console.println("The new password is: " + newPassword);
+									TConsole.println("The new password is: " + newPassword);
 									
 									ser.deleteServiceExtra("LastUpdated");
 									ser.addServiceExtra("LastUpdated", Timestamp.getTimestamp() );
 									
 									while ( !pm.getActiveLibrary().write() );
 									
-									console.println("The old password will NOT be shown again!", Style.RED);
+									TConsole.println("The old password will NOT be shown again!", Style.RED);
 									
 								} else {
-									console.println("The password has NOT been changed.",Style.GREEN);
+									TConsole.println("The password has NOT been changed.",Style.GREEN);
 								}
 							} else {
-								console.println("Service does not exist.",Style.RED);
+								TConsole.println("Service does not exist.",Style.RED);
 							}
 							
 							
 						} catch (NumberFormatException e) {
-							console.println("Usage: gen <service ID> [Password Length]");
+							TConsole.println("Usage: gen <service ID> [Password Length]");
 						}
 						
 					} else {
-						console.println("Usage: gen <service ID> [Password Length]");
+						TConsole.println("Usage: gen <service ID> [Password Length]");
 					}
 				}
 				
@@ -491,8 +488,8 @@ public class UserInterface {
 							Service ser = pm.getActiveLibrary().getServiceById(serviceId);
 		
 							if( ser != null ){
-								String extraKey = console.getInput("Extra Key > ");
-								String extraValue = console.getInput("Extra Value > ");
+								String extraKey = TConsole.getInput("Extra Key > ");
+								String extraValue = TConsole.getInput("Extra Value > ");
 								
 								ServiceExtra extra = new ServiceExtra();
 								extra.setKey(extraKey);
@@ -502,17 +499,17 @@ public class UserInterface {
 								
 								while ( !pm.getActiveLibrary().write() );
 								
-								console.println("The Service Extra has been added.", Style.GREEN);
+								TConsole.println("The Service Extra has been added.", Style.GREEN);
 								
 							} else { 
-								console.println("Service does not exist.",Style.RED);
+								TConsole.println("Service does not exist.",Style.RED);
 							}
 						
 						} catch (NumberFormatException e) {
-							console.println("Usage: extraadd <service ID>");
+							TConsole.println("Usage: extraadd <service ID>");
 						}
 					} else {
-						console.println("Usage: extraadd <service ID>");
+						TConsole.println("Usage: extraadd <service ID>");
 					}
 				}
 				
@@ -525,48 +522,48 @@ public class UserInterface {
 							
 							if( ser != null ){
 								
-								console.println("Are you sure you want to remove the service extra '" + input[2] + "' for " 
+								TConsole.println("Are you sure you want to remove the service extra '" + input[2] + "' for " 
 										+ pm.getActiveLibrary().getServiceById(serviceId).getName()+ "? ");
-								console.println("(This cannot be undone!)");
-								String yes_no_input = console.getInput("[y/n] ");
+								TConsole.println("(This cannot be undone!)");
+								String yes_no_input = TConsole.getInput("[y/n] ");
 								if( yes_no_input.toLowerCase().equals("y") ){
 									
 									for( int i = 0 ; i < ser.getServiceExtras().size(); i++ ){
 										ServiceExtra ext = ser.getServiceExtras().get(i);
 										if( ext.getKey().equals(input[2]) ){
-											console.println( "\t" + ext.getKey() + "\t" + ext.getValue() );
+											TConsole.println( "\t" + ext.getKey() + "\t" + ext.getValue() );
 											ser.getServiceExtras().remove(i);
 										}
 									}
 									
 									while ( !pm.getActiveLibrary().write() );
 									
-									console.println("\tThe above service extra(s) have been deleted. You will not be able to see them again!", Style.RED); 
+									TConsole.println("\tThe above service extra(s) have been deleted. You will not be able to see them again!", Style.RED); 
 									
 									
 								} else {
-									console.println("The service extra(s) has not been removed.",Style.GREEN);
+									TConsole.println("The service extra(s) has not been removed.",Style.GREEN);
 								}
 								
 							} else { 
-								console.println("Service does not exist.",Style.RED);
+								TConsole.println("Service does not exist.",Style.RED);
 							}
 							
 							
 						} catch (NumberFormatException e) {
-							console.println("Usage: extraremove <service ID> <Key>");
+							TConsole.println("Usage: extraremove <service ID> <Key>");
 						}
 					} else {
-						console.println("Usage: extraremove <service ID> <Key>");
+						TConsole.println("Usage: extraremove <service ID> <Key>");
 					}
 				}
 				
 				// -- password --
 				else if( input[0].equals("password") ){
 					if( pm.getActiveLibrary().changeLibraryPassword() ){
-						console.println("Your library password has been changed.",Style.GREEN);
+						TConsole.println("Your library password has been changed.",Style.GREEN);
 					} else {
-						console.println("Your library password has NOT been changed.",Style.RED);
+						TConsole.println("Your library password has NOT been changed.",Style.RED);
 					}
 				}
 			}
@@ -574,8 +571,7 @@ public class UserInterface {
 			
 		}
 		
-		scanner.close();
-		console.clear();
+		TConsole.clear();
 		
 	}
 	
@@ -585,7 +581,7 @@ public class UserInterface {
 	 * @param msg The string of the message to print.
 	 */
 	public void message( String msg ){
-		console.println(msg ,Style.YELLOW );
+		TConsole.println(msg ,Style.YELLOW );
 	}
 	
 }

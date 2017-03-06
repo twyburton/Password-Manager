@@ -2,14 +2,13 @@ package twy.burton.client.core.library;
 
 import java.io.File;
 import java.security.InvalidKeyException;
-import java.util.Scanner;
 
 import javax.crypto.BadPaddingException;
 
 import twy.burton.client.core.Constants;
 import twy.burton.client.security.PMAES;
 import twy.burton.utilities.FileAccess;
-import twy.burton.utilities.OutputConsole;
+import twy.burton.utilities.TConsole;
 import twy.burton.utilities.Style;
 
 public class LocalPasswordLibrary extends PasswordLibrary {
@@ -35,30 +34,26 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 		
 		byte[] bytes = this.getByteRepresentation();
 		
-		// Input
-		Scanner scan = new Scanner(System.in);
-		OutputConsole con = new OutputConsole( scan);
-		
 		// File
 		String file = Constants.LIBRARIES_DIRECTORY + "/" + fileName ;
 		File f = new File( file );
 		String password = null;
 		if( f.exists() ){
 			// File already exists Validate Password before overwrite
-			password = con.getSecurePassword("Manager Password");
+			password = TConsole.getSecurePassword("Manager Password");
 			
 			if( !this.validatePassword(password)){
-				con.println( "Incorrect Password" , Style.RED);
+				TConsole.println( "Incorrect Password" , Style.RED);
 				return false;
 			}
 		
 		} else {
 			// Get new password
-			password = con.getSecurePassword("New Manager Password");
-			String password2 = con.getSecurePassword("Retype Manager Password");
+			password = TConsole.getSecurePassword("New Manager Password");
+			String password2 = TConsole.getSecurePassword("Retype Manager Password");
 			
 			if( !password.equals(password2) ){
-				con.println( "Passwords Do Not Match" , Style.RED);
+				TConsole.println( "Passwords Do Not Match" , Style.RED);
 				return false;
 			}
 		}
@@ -67,7 +62,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 		try {
 			return PMAES.writeEncryptedFile(file, password, bytes);
 		} catch (InvalidKeyException e) {
-			con.println("Invalid Key Length. You must install Java Cryptography Extension (JCE)", Style.RED);
+			TConsole.println("Invalid Key Length. You must install Java Cryptography Extension (JCE)", Style.RED);
 			return false;
 		}
 		
@@ -77,9 +72,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 	protected boolean read() {
 
 		// == GET PASSWORD == 
-		Scanner scan = new Scanner(System.in);
-		OutputConsole con = new OutputConsole( scan);
-		String password = con.getSecurePassword("Manager Password");
+		String password = TConsole.getSecurePassword("Manager Password");
 		
 		// == VALIDATE PASSWORD ==
 		if( !validatePassword(password) ){
@@ -95,7 +88,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 			// Most likely bad password. Should have been caught above.
 			return false;
 		} catch (InvalidKeyException e) {
-			con.println("Invalid Key Length. You must install Java Cryptography Extension (JCE)", Style.RED);
+			TConsole.println("Invalid Key Length. You must install Java Cryptography Extension (JCE)", Style.RED);
 			return false;
 		}
 		
@@ -169,9 +162,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 
 	@Override
 	public boolean validatePassword( String password ){
-		Scanner scan = new Scanner(System.in);
-		OutputConsole con = new OutputConsole( scan);
-		
+
 		String file = Constants.LIBRARIES_DIRECTORY + "/" + fileName ;
 		byte[] currentFileData;
 		try {
@@ -180,7 +171,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 			// Bad padding. Therefore wrong password.
 			return false;
 		} catch (InvalidKeyException e) {
-			con.println("Invalid Key Length. You must install Java Cryptography Extension (JCE)", Style.RED);
+			TConsole.println("Invalid Key Length. You must install Java Cryptography Extension (JCE)", Style.RED);
 			return false;
 		}
 		
@@ -202,28 +193,24 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 	public boolean changeLibraryPassword(){
 		byte[] bytes = getByteRepresentation();
 		
-		// Input
-		Scanner scan = new Scanner(System.in);
-		OutputConsole con = new OutputConsole( scan);
-		
 		// File
 		String file = Constants.LIBRARIES_DIRECTORY + "/" + fileName ;
 		File f = new File( file );
 		if( f.exists() ){
 			// File already exists Validate Password before overwrite
-			String password = con.getSecurePassword("Old Manager Password");
+			String password = TConsole.getSecurePassword("Old Manager Password");
 			
 			if( !this.validatePassword(password)){
-				con.println( "Incorrect Password" , Style.RED);
+				TConsole.println( "Incorrect Password" , Style.RED);
 				return false;
 			}
 			
 			// Get new password
-			password = con.getSecurePassword("New Manager Password");
-			String password2 = con.getSecurePassword("Retype Manager Password");
+			password = TConsole.getSecurePassword("New Manager Password");
+			String password2 = TConsole.getSecurePassword("Retype Manager Password");
 			
 			if( !password.equals(password2) ){
-				con.println( "Passwords Do Not Match" , Style.RED);
+				TConsole.println( "Passwords Do Not Match" , Style.RED);
 				return false;
 			}
 
@@ -231,7 +218,7 @@ public class LocalPasswordLibrary extends PasswordLibrary {
 			try {
 				return PMAES.writeEncryptedFile(file, password, bytes);
 			} catch (InvalidKeyException e) {
-				con.println("Invalid Key Length. You must install Java Cryptography Extension (JCE)", Style.RED);
+				TConsole.println("Invalid Key Length. You must install Java Cryptography Extension (JCE)", Style.RED);
 				return false;
 			}		
 						

@@ -1,0 +1,17 @@
+package twy.burton.security;
+
+import java.security.PrivateKey;
+
+public class T21Signature {
+
+	public static String sign(String plainText, PrivateKey privateKey) {
+		Signature privateSignature = Signature.getInstance("SHA256withRSA");
+		privateSignature.initSign(privateKey);
+		privateSignature.update(plainText.getBytes(UTF_8));
+		
+		byte[] signature = privateSignature.sign();
+		
+		return Base64.getEncoder().encodeToString(signature);
+	}
+	
+}

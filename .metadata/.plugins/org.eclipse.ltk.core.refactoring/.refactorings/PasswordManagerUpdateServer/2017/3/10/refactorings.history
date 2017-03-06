@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename type &apos;twy.burton.security.Signature&apos; to &apos;T21Signature&apos;&#x0D;&#x0A;- Original project: &apos;PasswordManagerUpdateServer&apos;&#x0D;&#x0A;- Original element: &apos;twy.burton.security.Signature&apos;&#x0D;&#x0A;- Renamed element: &apos;twy.burton.security.T21Signature&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename type &apos;Signature&apos;" flags="589830" id="org.eclipse.jdt.ui.rename.type" input="/src&lt;twy.burton.security{Signature.java[Signature" matchStrategy="1" name="T21Signature" qualified="false" references="true" similarDeclarations="false" stamp="1488830051303" textual="false" version="1.0"/>
+</session>

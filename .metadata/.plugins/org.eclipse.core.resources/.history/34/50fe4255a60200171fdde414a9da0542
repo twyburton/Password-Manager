@@ -1,0 +1,17 @@
+package twy.burton.core;
+
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.SecureRandom;
+
+public class KeySetup {
+
+	public static void main(String[] args) {
+		
+		 KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+		 generator.initialize(2048, new SecureRandom());
+		 KeyPair pair = generator.generateKeyPair();
+
+	}
+
+}

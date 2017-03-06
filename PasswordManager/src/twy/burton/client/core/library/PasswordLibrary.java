@@ -3,7 +3,6 @@ package twy.burton.client.core.library;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import twy.burton.client.core.Constants;
 import twy.burton.client.core.library.legacy.LegacyLibrary;
@@ -11,7 +10,7 @@ import twy.burton.client.core.service.IdServicePair;
 import twy.burton.client.core.service.Service;
 import twy.burton.client.core.service.ServiceExtra;
 import twy.burton.utilities.FileAccess;
-import twy.burton.utilities.OutputConsole;
+import twy.burton.utilities.TConsole;
 
 public abstract class PasswordLibrary {
 
@@ -272,11 +271,8 @@ public abstract class PasswordLibrary {
 	 */
 	public boolean importLegacyLibrary(){
 		
-		Scanner scanner = new Scanner(System.in);
-		OutputConsole console = new OutputConsole( scanner );
-		
-		String path = console.getInput("Path to Legacy Library > ");
-		String password = console.getSecurePassword("Legacy Library Password");
+		String path = TConsole.getInput("Path to Legacy Library > ");
+		String password = TConsole.getSecurePassword("Legacy Library Password");
 		
 		// Legacy IV
 		String iv_string = "os834jay4mxf781b";
