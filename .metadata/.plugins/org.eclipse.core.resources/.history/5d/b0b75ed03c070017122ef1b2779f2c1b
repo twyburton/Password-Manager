@@ -1,0 +1,10 @@
+package twy.burton.client.security;
+
+public class TextCrypt {
+
+	public static boolean encrypt( String txt, String password ){
+		
+	}
+	
+	
+}

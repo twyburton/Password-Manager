@@ -1,0 +1,5 @@
+package twy.burton.client.security;
+
+public class TextCrypt {
+
+}

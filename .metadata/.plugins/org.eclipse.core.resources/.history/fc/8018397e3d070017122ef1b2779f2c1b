@@ -1,0 +1,19 @@
+package twy.burton.client.security;
+
+import twy.burton.client.core.Constants;
+
+public class TextCrypt {
+
+	public static String encrypt( String txt, String password ){
+		
+		byte[] key = PMAES.passwordToKey(password, Constants.NUMBER_OF_TIMES_TO_HASH_PASSWORD);
+		
+		return txt;
+	}
+	
+	public static String decrypt( String cipher, String password ){
+		
+		return cipher;
+	}
+	
+}

@@ -72,7 +72,7 @@ public class PMAES extends AES{
 	 * @param numberTimesToHash The number of times to hash the password
 	 * @return The encryption key in a byte array
 	 */
-	private static byte[] passwordToKey( String password, int numberTimesToHash ){
+	public static byte[] passwordToKey( String password, int numberTimesToHash ){
 		byte[] hash = singleHash( password.getBytes() );
 		for( int i = 0 ; i < numberTimesToHash; i++ ){
 			hash = singleHash( hash );

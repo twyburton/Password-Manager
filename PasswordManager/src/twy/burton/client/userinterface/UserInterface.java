@@ -15,6 +15,7 @@ import twy.burton.client.core.library.PasswordLibrary;
 import twy.burton.client.core.service.IdServicePair;
 import twy.burton.client.core.service.Service;
 import twy.burton.client.core.service.ServiceExtra;
+import twy.burton.client.security.TextCrypt;
 import twy.burton.utilities.TConsole;
 import twy.burton.utilities.PasswordGenerator;
 import twy.burton.utilities.Style;
@@ -114,6 +115,10 @@ public class UserInterface {
 					TConsole.println("extraremove <Service ID> <Key> - Remove the service extra with key <Key> for the service with ID <Service ID>");
 					
 				}
+				
+				TConsole.println("");
+				TConsole.println("textenc <text> - Encrypt text");
+				TConsole.println("textdec <text> - Decrypt text");
 			}
 			
 			// -- Clear --
@@ -228,6 +233,47 @@ public class UserInterface {
 				TConsole.println("Password Character Set: " + Arrays.toString(Constants.PASSWORD_CHARACTERS));
 				TConsole.println("");
 			}
+			
+			
+			// -- Text encrypt --
+			else if ( input[0].equals( "textenc" )){
+				if( input.length == 1){
+					TConsole.println("Usage: textenc <text>");
+				} else {
+					String password = TConsole.getSecurePassword("Text Encryption Password");
+					
+					String text = "";
+					for( int i = 1 ; i < input.length; i++ ){
+						if( i > 1 ) text += " ";
+						text += input[i];
+					}
+					
+					String hex = TextCrypt.encrypt(text, password);
+					
+					TConsole.println("\tCiphertext:");
+					TConsole.println("\t" + hex );
+					
+					StringSelection stringSelection = new StringSelection( hex );
+					Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+					clpbrd.setContents(stringSelection, null);
+					TConsole.println("\tCopied To Clipboard!", Style.MAGENTA );
+					TConsole.println("");
+					
+				}
+			}
+			
+			else if ( input[0].equals( "textdec" )){
+				if( input.length == 1){
+					TConsole.println("Usage: textdec <text>");
+				} else {
+					
+					String password = TConsole.getSecurePassword("Text Encryption Password");
+					TConsole.println("\tCiphertext:");
+					
+					TConsole.println( "\t" + TextCrypt.decrypt( input[1] , password) );
+				}
+			}
+			
 			
 			// === FUNCTIONS WHEN LIBRARY IS ACTIVE ===
 			else if ( pm.getActiveLibrary() != null ){
