@@ -105,8 +105,9 @@ public class UserInterface {
 					TConsole.println("password - Change the library password");
 					TConsole.println("");
 					
-					TConsole.println("get <Service Name> - Returns a list of services containing the string <Service Name> and copy to clipboard");
+					TConsole.println("get <Service Name> - Returns a list of services containing the string <Service Name> and copy password to clipboard");
 					TConsole.println("show <Service Name> - Returns a list of services containing the string <Service Name> showing the password");
+					TConsole.println("user <Service Name> - Returns a list of services containing the string <Service Name> and copy user to clipboard");
 					TConsole.println("new [Password Length] - Add a new service with a randomly generated password");
 					TConsole.println("remove <Service ID> - Remove service with the service ID <Service ID>");
 					TConsole.println("gen <Service ID> [Password Length] - Generate a new password for the service with the service ID <Service ID>");
@@ -311,6 +312,56 @@ public class UserInterface {
 									Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
 									clpbrd.setContents(stringSelection, null);
 									TConsole.println("\tCopied To Clipboard!", Style.MAGENTA );
+									TConsole.println("");
+								}
+								
+							}
+							
+							
+						} else {
+							TConsole.println("\tNo Matches");
+							TConsole.println("");
+						}
+						
+					} else {
+						TConsole.println("Usage: get <service name>");
+					}
+				}
+				
+				// -- user --
+				if( input[0].equals("user") ){
+					if( input.length == 2 ){
+						List<IdServicePair> matches = pm.getActiveLibrary().getServiceByName( input[1] );
+						
+						TConsole.println("");
+						TConsole.println("\t" + Style.MAGENTA + Style.STYLE_UNDERLINE_ON + matches.size() + " Match(es)"
+								+ Style.STYLE_UNDERLINE_OFF + Style.WHITE);
+						
+						if( matches.size() > 0 ){
+							for( int i = 0 ; i < matches.size() ; i++ ){
+								Service ser = matches.get(i).getService();
+								int id = matches.get(i).getServiceId();
+								
+								String passwordStarred = String.format(String.format("%%%ds", ser.getPassword().length()), " ").replace(" ","*");
+								
+								TConsole.println( "\t" + id + " /" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN 
+										+ "$" + Style.WHITE + ser.getName() + "\t" + ser.getUsername() 
+										+ "\t" + passwordStarred );
+								
+								
+								for( int u = 0 ; u < ser.getServiceExtras().size(); u++ ){
+									ServiceExtra extra = ser.getServiceExtras().get(u);
+									TConsole.println("\t\t/" + Style.CYAN + pm.getActiveLibrary().getLibraryName() + Style.GREEN
+											+ "$" + Style.WHITE + ser.getName() + "." + extra.getKey() + "\t" + extra.getValue());
+								}
+								TConsole.println("");
+								
+								if( matches.size() == 1 && i == 0){
+									// Copy password to clipboard
+									StringSelection stringSelection = new StringSelection( ser.getUsername() );
+									Clipboard clpbrd = Toolkit.getDefaultToolkit().getSystemClipboard();
+									clpbrd.setContents(stringSelection, null);
+									TConsole.println("\tCopied User To Clipboard!", Style.MAGENTA );
 									TConsole.println("");
 								}
 								

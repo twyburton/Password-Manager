@@ -32,7 +32,6 @@
 <fullyQualifiedTypeName name="javax.crypto.spec.IvParameterSpec"/>
 <fullyQualifiedTypeName name="twy.burton.security.LegacyAES"/>
 <fullyQualifiedTypeName name="java.io.File"/>
-<fullyQualifiedTypeName name="java.util.Arrays"/>
 <fullyQualifiedTypeName name="java.io.OutputStream"/>
 <fullyQualifiedTypeName name="org.omg.CORBA.portable.InputStream"/>
 <fullyQualifiedTypeName name="java.io.InputStream"/>
@@ -49,4 +48,8 @@
 <fullyQualifiedTypeName name="java.util.Base64"/>
 <fullyQualifiedTypeName name="java.security.PublicKey"/>
 <fullyQualifiedTypeName name="twy.burton.security.T21Signature"/>
+<fullyQualifiedTypeName name="twy.burton.client.security.TextCrypt"/>
+<fullyQualifiedTypeName name="twy.burton.client.core.Constants"/>
+<fullyQualifiedTypeName name="javax.xml.bind.DatatypeConverter"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
 </qualifiedTypeNameHistroy>
