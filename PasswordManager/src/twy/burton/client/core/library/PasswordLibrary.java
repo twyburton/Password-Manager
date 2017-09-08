@@ -60,11 +60,32 @@ public abstract class PasswordLibrary {
 		services.add(s0);
 	}
 	
-	// Return a list of services which have a name containing the name parameter
-	public List<IdServicePair> getServiceByName( String name ){
+	// Return a list of services which have a name or x-tag containing the name parameter
+	public List<IdServicePair> getServiceByName( String str ){
 		List<IdServicePair> matches = new ArrayList<IdServicePair>();
+		// Iterate over services
 		for( int i = 0 ; i < services.size(); i++ ){
-			if( services.get(i).getName().toLowerCase().contains( name.toLowerCase() )){
+			Service ser = services.get(i);
+			boolean match = false;
+			// Check if name matches
+			if( ser.getName().toLowerCase().contains( str.toLowerCase() )){
+				match = true;
+			// Check if an x-tag matches
+			} else {
+				List<ServiceExtra> extras = ser.getServiceExtras();
+				for( int j = 0 ; j < extras.size(); j++ ){
+					ServiceExtra extra = extras.get(j);
+					if( extra.getKey().startsWith("x-tag-")){
+						if( extra.getValue().toLowerCase().contains( str.toLowerCase() )){
+							match = true;
+							break;
+						}
+					}
+				}
+			}
+			
+			if( match ){
+				// Add to matches list
 				matches.add(new IdServicePair(i,services.get(i)));
 			}
 		}

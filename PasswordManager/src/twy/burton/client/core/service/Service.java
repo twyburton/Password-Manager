@@ -1,8 +1,11 @@
 package twy.burton.client.core.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import twy.burton.client.core.Constants;
 import twy.burton.utilities.FileAccess;
 
 public class Service {
@@ -130,6 +133,28 @@ public class Service {
 	}
 	
 	/**
+	 * 
+	 */
+	public int getNextTagId(){
+		for( int i = 1; i < Constants.MAX_TAGS_PER_SERVICE; i++ ){
+			if( !doesServiceExtraExist( "x-tag-" + i ) ){
+				return i;
+			}
+		}
+		
+		return -1;
+	}
+	
+	private boolean doesServiceExtraExist( String key ){
+		for( int i = 0 ; i < extras.size(); i++ ){
+			if( extras.get(i).getKey().toLowerCase().equals(key.toLowerCase()) ){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * Get the byte representation of the service so that it can be written to a binary file
 	 * @return The byte representation of the service
 	 */
@@ -137,11 +162,21 @@ public class Service {
 		
 		/*
 		 *  FORMAT:
-		 *  
-		 *  	
+		 *  	Service Name Size[4],
+		 *  	Service Name [n],
+		 *  	Username Size[4],
+		 *  	Username [n],
+		 *  	Password Size[4],
+		 *  	Password [n],
+		 *  	Number of ServiceExtras [4],
+		 *  		ServiceExtra size [4],
+		 *  		ServiceExtra [n],
+		 *  	Number of ServiceFiles [4],
+		 *  		ServiceFile Size [4],
+		 *  		ServiceFile [n]
 		 */
 		
-		// Get service extra stuff
+		// -- Get service extra stuff --
 		int extraLength = 0;
 		for( int i = 0 ; i < extras.size(); i++ ){
 			extraLength += 4;
@@ -155,7 +190,6 @@ public class Service {
 		
 		// Get total length
 		int length = 4 + 4 + 4 + 4 + nameBytes.length + usernameBytes.length + passwordBytes.length + extraLength;
-		
 		
 		byte[] data = new byte[length];
 		int x = 0;
@@ -185,7 +219,7 @@ public class Service {
 		for( int i = 0 ; i < passwordBytes.length; i++ )
 			data[x++] = passwordBytes[i];
 		
-		// Extras
+		// Service Extras
 		number = FileAccess.int_to_bb_le(extras.size());
 		for( int i = 0 ; i < 4; i++ )
 			data[x++] = number[i];
@@ -200,7 +234,6 @@ public class Service {
 			for( int j = 0; j < extra.length; j++ ){
 				data[x++] = extra[j];
 			}
-			
 		
 		}
 		

@@ -2,7 +2,7 @@ package twy.burton.client.core;
 
 public class Constants {
 	public static String PROGRAM_NAME = "Password Manager";
-	public static byte[] PROGRAM_VERSION_ARRAY = {3,1,1};
+	public static byte[] PROGRAM_VERSION_ARRAY = {3,1,2};
 	public static String PROGRAM_VERSION = PROGRAM_VERSION_ARRAY[0] + "." + PROGRAM_VERSION_ARRAY[1] + "." + PROGRAM_VERSION_ARRAY[2];
 	
 	public static String HOME_DIRECTORY = System.getProperty("user.home");
@@ -27,4 +27,10 @@ public class Constants {
 			,'b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r'
 			,'s','t','u','v','w','x','y','z','%','$','#','(',')','*','0','1','2'
 			,'3','4','5','6','7','8','9',';','!','^'};
+	
+	
+	
+	//
+	
+	public static int MAX_TAGS_PER_SERVICE = 10000;
 }

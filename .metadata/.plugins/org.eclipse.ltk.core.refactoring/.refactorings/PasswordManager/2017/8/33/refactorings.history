@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;data&apos; in &apos;twy.burton.client.core.service.ServiceFile.getServiceFileBytes()&apos; to &apos;bytes&apos;&#x0D;&#x0A;- Original project: &apos;PasswordManager&apos;&#x0D;&#x0A;- Original element: &apos;twy.burton.client.core.service.ServiceFile.getServiceFileBytes().data&apos;&#x0D;&#x0A;- Renamed element: &apos;data&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;data&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;twy.burton.client.core.service{ServiceFile.java[ServiceFile~getServiceFileBytes@data!933!963!940!943!\[B!0!false" name="bytes" references="true" stamp="1503075330240" version="1.0"/>
+</session>

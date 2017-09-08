@@ -6,6 +6,8 @@ public class ServiceExtra {
 
 	// This is extra data that can be attached to a service 
 	// such as secret questions. e.g. Memorable place
+	// If key starts with x-file then it will be a file
+	// If key starts with x-tag then it will be a tag
 	
 	private String key;
 	private String value;

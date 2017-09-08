@@ -114,6 +114,8 @@ public class UserInterface {
 					TConsole.println("set <Service ID> - Manualy set the password for the service with the service ID <Service ID>");
 					TConsole.println("extraadd <Service ID> - Add a new service extra for the service with ID <Service ID>");
 					TConsole.println("extraremove <Service ID> <Key> - Remove the service extra with key <Key> for the service with ID <Service ID>");
+					TConsole.println("tagadd <service ID> - Add a tag to a service to provide additional search data");
+					TConsole.println("tagremove - Displays information on how to remove a tag");
 					
 				}
 				
@@ -610,7 +612,7 @@ public class UserInterface {
 					}
 				}
 				
-				// -- Add service extra --
+				// -- Remove service extra --
 				else if( input[0].equals("extraremove") ){
 					if( input.length == 3 ){
 						try {
@@ -654,6 +656,51 @@ public class UserInterface {
 						TConsole.println("Usage: extraremove <service ID> <Key>");
 					}
 				}
+				
+				
+				// -- Add service tag --
+				else if( input[0].equals("tagadd") ){
+					if( input.length == 2 ){
+						try {
+							int serviceId = Integer.parseInt(input[1]);
+							Service ser = pm.getActiveLibrary().getServiceById(serviceId);
+							
+							int nextTagId = ser.getNextTagId();
+		
+							if( ser != null && nextTagId != - 1){
+								String tag = TConsole.getInput("Tag > ");
+								
+								ServiceExtra extra = new ServiceExtra();
+								extra.setKey( "x-tag-" + nextTagId );
+								extra.setValue( tag );
+								
+								ser.addServiceExtra(extra);
+								
+								while ( !pm.getActiveLibrary().write() );
+								
+								TConsole.println("The Service Tag has been added.", Style.GREEN);
+								
+							} else if (ser != null ) { 
+								TConsole.println("Service does not exist.",Style.RED);
+							} else {
+								TConsole.println("Max Service Tags Reached.",Style.RED);
+							}
+						
+						} catch (NumberFormatException e) {
+							TConsole.println("Usage: tagadd <service ID>");
+						}
+					} else {
+						TConsole.println("Usage: tagadd <service ID>");
+					}
+				}
+				
+				
+				// -- Remove service tag --
+				else if( input[0].equals("tagremove") ){
+					TConsole.println("Use the extraremove command.");
+				}
+				
+				
 				
 				// -- password --
 				else if( input[0].equals("password") ){

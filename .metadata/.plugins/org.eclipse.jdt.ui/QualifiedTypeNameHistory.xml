@@ -23,7 +23,6 @@
 <fullyQualifiedTypeName name="twy.burton.security.AES"/>
 <fullyQualifiedTypeName name="java.io.FileInputStream"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
-<fullyQualifiedTypeName name="java.io.IOException"/>
 <fullyQualifiedTypeName name="twy.burton.core.library.legacy.LegacyLibrary"/>
 <fullyQualifiedTypeName name="java.security.MessageDigest"/>
 <fullyQualifiedTypeName name="java.security.NoSuchAlgorithmException"/>
@@ -41,7 +40,6 @@
 <fullyQualifiedTypeName name="java.awt.datatransfer.Clipboard"/>
 <fullyQualifiedTypeName name="java.awt.Toolkit"/>
 <fullyQualifiedTypeName name="java.security.KeyPairGenerator"/>
-<fullyQualifiedTypeName name="java.security.SecureRandom"/>
 <fullyQualifiedTypeName name="java.security.KeyPair"/>
 <fullyQualifiedTypeName name="java.security.PrivateKey"/>
 <fullyQualifiedTypeName name="java.security.Signature"/>
@@ -49,7 +47,15 @@
 <fullyQualifiedTypeName name="java.security.PublicKey"/>
 <fullyQualifiedTypeName name="twy.burton.security.T21Signature"/>
 <fullyQualifiedTypeName name="twy.burton.client.security.TextCrypt"/>
-<fullyQualifiedTypeName name="twy.burton.client.core.Constants"/>
 <fullyQualifiedTypeName name="javax.xml.bind.DatatypeConverter"/>
 <fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="java.util.zip.Deflater"/>
+<fullyQualifiedTypeName name="java.io.ByteArrayOutputStream"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="java.util.zip.DataFormatException"/>
+<fullyQualifiedTypeName name="java.util.zip.Inflater"/>
+<fullyQualifiedTypeName name="java.security.SecureRandom"/>
+<fullyQualifiedTypeName name="java.util.HashSet"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
+<fullyQualifiedTypeName name="twy.burton.client.core.Constants"/>
 </qualifiedTypeNameHistroy>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename local variable &apos;name&apos; in &apos;twy.burton.client.core.library.PasswordLibrary.getServiceByName(...)&apos; to &apos;str&apos;&#x0D;&#x0A;- Original project: &apos;PasswordManager&apos;&#x0D;&#x0A;- Original element: &apos;twy.burton.client.core.library.PasswordLibrary.getServiceByName(String).name&apos;&#x0D;&#x0A;- Renamed element: &apos;name&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename local variable &apos;name&apos;" id="org.eclipse.jdt.ui.rename.local.variable" input="/src&lt;twy.burton.client.core.library{PasswordLibrary.java[PasswordLibrary~getServiceByName~QString;@name!1840!1850!1847!1850!QString;!0!true" name="str" references="true" stamp="1504347000903" version="1.0"/>
+</session>
