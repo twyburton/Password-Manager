@@ -60,7 +60,7 @@ public abstract class PasswordLibrary {
 		services.add(s0);
 	}
 	
-	// Return a list of services which have a name, number or x-tag containing the name parameter
+	// Return a list of services which have a name or x-tag containing the name parameter
 	public List<IdServicePair> getServiceByName( String str ){
 		List<IdServicePair> matches = new ArrayList<IdServicePair>();
 		// Iterate over services
@@ -69,9 +69,6 @@ public abstract class PasswordLibrary {
 			boolean match = false;
 			// Check if name matches
 			if( ser.getName().toLowerCase().contains( str.toLowerCase() )){
-				match = true;
-			// Check if service number matches
-			} else if ( (i+"").equals(str) ){
 				match = true;
 			// Check if an x-tag matches
 			} else {

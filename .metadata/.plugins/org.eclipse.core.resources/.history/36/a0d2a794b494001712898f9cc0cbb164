@@ -70,8 +70,7 @@ public abstract class PasswordLibrary {
 			// Check if name matches
 			if( ser.getName().toLowerCase().contains( str.toLowerCase() )){
 				match = true;
-			// Check if service number matches
-			} else if ( (i+"").equals(str) ){
+			} else if ( (i+"").equals("str") ){
 				match = true;
 			// Check if an x-tag matches
 			} else {
